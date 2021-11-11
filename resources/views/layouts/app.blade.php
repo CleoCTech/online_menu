@@ -16,6 +16,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
@@ -94,12 +95,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js " crossorigin="anonymous "></script>
-    <script src="{{ asset('assets/js/scripts.js ') }}"></script>
     @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     </script>
-    ...
     <x-livewire-alert::scripts />
 </body>
 </html>

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Restraunt;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -37,10 +40,45 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:restraunt')->except('logout');
+        $this->middleware('guest:web')->except('logout');
     }
 
     public function resSgnin()
     {
-        return view('res-signin');
+        return view('res-signin', ['url' => 'r/signin', 'register' => 'r/signin']);
+    }
+
+    public function showAdminLoginForm()
+    {
+        return view('res-signin', ['url' => 'admin/signin',  'register' => 'admin/signup']);
+        // return view('res-signin');
+    }
+    public function resAuth(Request $request)
+    {
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
+        if (Auth::guard('restraunt')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+
+            $res = Restraunt::where('email', $request->email)->first();
+            return redirect()->route('r-dashboard', [$res->code]);
+            // return redirect()->intended(route('r-dashboard', $res->code));
+        }
+        return back()->withInput($request->only('email', 'remember'));
+    }
+    public function adminAuth(Request $request)
+    {
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required|min:8'
+        ]);
+
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+
+            return redirect()->intended('/admin/dashboard');
+        }
+        return back()->withInput($request->only('email', 'remember'));
     }
 }

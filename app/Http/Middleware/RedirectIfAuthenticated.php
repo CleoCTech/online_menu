@@ -23,6 +23,14 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                if ($guard == "restraunt") {
+                    return redirect('/r/dashboard');
+                }
+                if ($guard == "web") {
+                    // dd('web');
+                    return redirect('/admin/dashboard');
+                }
+                // dd('none of above. Guard is: ' .$guard);
                 return redirect(RouteServiceProvider::HOME);
             }
         }

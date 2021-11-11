@@ -10,4 +10,5 @@ class Navbar extends Component
     {
         return view('livewire.inc.navbar');
     }
+
 }

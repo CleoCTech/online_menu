@@ -39,7 +39,7 @@ class VerifyEmailController extends Controller
 
                 Restraunt::where('id', $user->id)
                 ->update([
-                    'code' =>$qrcode,
+                    'code' =>$code,
                     'verified' =>1,
                     'email_verified_at' => now(),
                     'token' =>null,
@@ -70,7 +70,8 @@ class VerifyEmailController extends Controller
     }
 
     public function genarateCode($prefix)
-    {
+    {   
+        $prefix = preg_replace('/\s+/', '_', $prefix);
         $code= '';
         $six_digit_random_number = random_int(100000, 999999) + 101029;
         $code = $prefix.$six_digit_random_number;

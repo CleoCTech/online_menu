@@ -3,7 +3,9 @@
     <div wire:loading wire:target='resendLink'>
         @livewire('general.loader')
     </div>
-    <section class="bg-white pt-10" id="about">
+    <section class="h-100
+    page-header-ui page-header-ui-dark
+    bg-img-repeat bg-secondary pt-10" id="about" style="background-image: url('assets/img/pattern-shapes.png')">
         <div class="container px-5">
             <div class="row gx-5 d-flex justify-content-center align-items-center">
                 <div class="col-lg-6 mb-5">

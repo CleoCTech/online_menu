@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class RestrauntTable extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'restraunt_id',
+        'name',
+        'code',
+    ];
 }

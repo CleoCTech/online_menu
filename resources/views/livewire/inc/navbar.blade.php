@@ -15,9 +15,23 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto me-lg-5">
+
+                    @guest
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('restraunt-signin') }}">Login</a>
                     </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">Logout</a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    </li>
+                    @endguest
+
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="menu.html">Menu</a>
                     </li> --}}
