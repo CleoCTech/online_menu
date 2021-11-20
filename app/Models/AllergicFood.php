@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DishCategory extends Model
+class AllergicFood extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'restaurant_id'
+        'dish_id', 'allergene_id'
     ];
 }

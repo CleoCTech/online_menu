@@ -1,0 +1,175 @@
+<div>
+    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    <div wire:loading wire:target="store">
+        @livewire('general.loader')
+    </div>
+    <div class="container-fluid p-4">
+        <!-- Page header -->
+        @livewire('dashboard.home.components.page-haeder',
+        ['title' => 'Add Dish/Drink',
+        'rightActionBtn' => 'Back',
+        'rightBtnClass' => 'btn btn-primary',
+        'pageThread' => true,
+        'getModal' => false,
+        'nextPage' => 'menu-list',
+        'pageTitle' => '',
+        'icon' => true,
+        'threads' => ['Admin', 'Menu List', 'Active' => 'Add Dish']])
+        <!-- Page header End -->
+        <div class="row">
+            <div class="col-xl-9 col-lg-8 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card border-0 mb-4">
+                    <!-- Card header -->
+                    <div class="card-header">
+                        <h4 class="mb-0">Add Dish</h4>
+                    </div>
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h4 class="text-muted">
+                                <i class="fe fe-info"></i> Dish Details
+                            </h4>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-12">
+                                <!-- Title -->
+                                <label for="evntOwnerName" class="form-label">Dish Name<span
+                                        class="text-danger">*</span></label>
+                                <input wire:model.defer='dish_name' type="text" id="evntOwnerName"
+                                    class="form-control text-dark"
+                                    placeholder="Dish Name" />
+                                @error('dish_name') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Menu Category
+                                    <span class="text-danger">*</span></label>
+                                <select wire:model.defer='menu_category_id' class="form-control" id="" data-width="100%">
+                                    <option selected disabled>Select Menu Category</option>
+                                    @foreach ($menuCategories as $menuCategory)
+                                    <option value="{{ $menuCategory->id }}">{{ $menuCategory->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('menu_category_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Dish Category
+                                    <span class="text-danger">*</span></label>
+                                <select wire:model.defer='dish_category_id' class="form-control" id="" data-width="100%">
+                                    <option selected disabled>Select Dish Category</option>
+                                    @foreach ($dishCategories as $dishCategory)
+                                    <option value="{{ $dishCategory->id }}">{{ $dishCategory->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('dish_category_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
+                        <div class="my-4">
+                            <h4 class="text-muted">
+                                <i class="fe fe-info"></i> Price Details
+                            </h4>
+                        </div>
+                        @foreach ($inputs as $key => $value)
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Price Category
+                                    <span class="text-danger">*</span></label>
+                                <input wire:model="pCatgeoriesIds.{{ $key }}" type="hidden">
+                                <input wire:model="pCatgeories.{{ $key }}" type="text" id="evntOwnerName"
+                                class="form-control text-dark" />
+                                @error('pCatgeories.{{ $key }}') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Price
+                                    <span class="text-danger">*</span></label>
+                                <input wire:model.defer='prices.{{ $key }}' type="number" id="evntOwnerName"
+                                class="form-control text-dark" />
+                                @error('prices.{{ $key }}') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
+                        @endforeach
+                        <button x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-price-category-modal', 'Add Price Category')" class="btn btn-primary btn-sm">Add New Price Category</button>
+                        <div class="my-4">
+                            <h4 class="text-muted">
+                                <i class="fe fe-info"></i> Other Details
+                            </h4>
+                        </div>
+                        <div class="row" x-data="{}">
+                            
+                            <div wire:ignore class="mb-3 col-md-12">
+                                <label for="evntPoster" class="form-label">Image <span
+                                        class="text-danger">*</span></label>
+                                <form action="#" class="dropzone mt-4 border-dashed">
+                                    <div class="fallback">
+                                        <input type="file" name="paperFile" id="test">
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-0 ml-1 form-check" style="margin-left: 1rem;">
+                                    <input wire:click='frozen' wire:model.defer='frozen' class="form-check-input" type="checkbox" value="">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Frozen?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-1 form-check" style="margin-left: 1rem;">
+                                    <input wire:click='containAllergenes' wire:model.defer='containsAllergene'  class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Contains Allergenes?
+                                    </label>
+                                </div>
+                            </div>
+                            @if ($containsAllergene)
+                            <div class="row" style="margin-left:1rem;"> 
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Check the allergenes in the box
+                                        <span class="text-danger">*</span></label>
+                                    <ul class="list-inline border border-2 border-primary">
+                                        @foreach ($allergenes as $item)
+                                        <li class="list-inline-item">
+                                            <input wire:model='allergenesBucket.{{ $item->id }}'
+                                             class="form-check-input" type="checkbox">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                {{ $item->name }}
+                                            </label>
+                                        </li>
+                                        @endforeach
+                                        
+                                    </ul>
+                                    <button x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-allergene-modal', 'Add Allergenes')" class="btn btn-primary btn-sm">Add New Allergene</button>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button wire:click='store' type="submit" class="btn w-full btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        const inputElement = document.querySelector('input[id="test"]');
+        const pond = FilePond.create( inputElement );
+        FilePond.setOptions({
+            server:{
+                url: '/upload',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
+    </script>
+</div>

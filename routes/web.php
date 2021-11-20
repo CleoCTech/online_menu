@@ -41,7 +41,7 @@ Route::get('/storage-link', function() {
 Route::get('/test-email', function () {
     return new TestMail();
 });
-
+//Route::post('upload', [App\Http\Controllers\UploadController::class, 'store'])->name('upload');
 Route::get('/', Signup::class)->name('signup');
 // Route::get('/r/signin', Signin::class)->name('signin');
 Route::get('/r/verify-email/{token}', [App\Http\Controllers\VerifyEmailController::class, 'setpass'])->name('verify-mail');
@@ -71,8 +71,10 @@ Route::redirect('login', 'admin/signup');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
 Route::group(['middleware' => 'auth:restraunt'], function () {
     Route::get('/r/{code}', Dashboard::class)->name('r-dashboard');
+    Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
 });
 
 Route::group(['middleware' => 'auth:web'], function () {

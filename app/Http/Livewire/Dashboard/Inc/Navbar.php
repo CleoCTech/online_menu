@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class Navbar extends Component
 {
+
     public function render()
     {
         return view('livewire.dashboard.inc.navbar');
@@ -19,5 +20,17 @@ class Navbar extends Component
     public function servingTables()
     {
         $this->emit('pageUpdate', 'tables', '');
+    }
+    public function menuList()
+    {
+        $this->emit('pageUpdate', 'menu-list', '');
+    }
+    public function createDish()
+    {
+        $this->emit('pageUpdate', 'create-dish', '');
+    }
+    public function openModal($modal, $pageTitle)
+    {
+        $this->emit('updateModal', $modal, $pageTitle);
     }
 }

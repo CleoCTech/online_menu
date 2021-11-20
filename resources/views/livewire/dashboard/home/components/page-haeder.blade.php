@@ -36,11 +36,18 @@
                     </nav>
                     @endif
                 </div>
+                @if (! $getModal)
+                <div class="">
+                    <a wire:click="rightBtnAction('{{ $nextPage }}',  '{{ $pageTitle }}')"
+                     href="#" class="{{ $rightBtnClass }}"> {{ $rightActionBtn }}</a>
+                </div>
+                @else
                 <div x-data='' class="">
                     <a x-data="{}"
                      x-on:click="$dispatch('dlg-modal');$wire.rightBtnAction('{{ $nextPage }}', '{{ $pageTitle }}')"
                      href="#" class="{{ $rightBtnClass }}"> {{ $rightActionBtn }}</a>
                 </div>
+                @endif
             </div>
         </div>
     </div>

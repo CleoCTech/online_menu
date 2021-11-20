@@ -44,7 +44,7 @@ class PageHaeder extends Component
         if ($this->getModal) {
             $this->emit('updateModal', $nextPage, $pageTitle);
         }else{
-            $this->emitUp('pageUpdate', $nextPage, '');
+            $this->emit('pageUpdate', $nextPage, '');
         }
 
     }

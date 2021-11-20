@@ -11,22 +11,9 @@
               x-on:click = "open = false"
             ></button>
         </div>
-        @if (session()->has('success'))
-            <!-- Success Alert -->
-            <div class="alert alert-success alert-dismissible fade show">
-                <strong>Success!</strong> {{session()->get('success')}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            @elseif(session()->has('error'))
-            <!-- Error Alert -->
-            <div class="alert alert-danger alert-dismissible fade show">
-                <strong>Error!</strong> {{ session()->get('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
          @if($modal == null)
          <div class= "text-center">
-            <p class="text-muted">Loading...</p>
+            <h4 class="text-muted">Loading...</h4>
         </div>
          @else
          {{-- @include($modal) --}}
@@ -36,6 +23,10 @@
     </div>
 
 <style>
+
+    .page-link{
+        font-size: x-small !important;
+    }
  [x-cloak] { display: none }          /* Absolute Center Spinner */
 .loadingx {
   position: fixed;

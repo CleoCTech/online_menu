@@ -11,7 +11,7 @@
         'rightBtnClass' => 'btn btn-primary',
         'pageThread' => false,
         'getModal' => false,
-        'nextPage' => 'create-event',
+        'nextPage' => 'create-dish',
         'pageTitle' => '',
         'icon' => true,
         'threads' => []])

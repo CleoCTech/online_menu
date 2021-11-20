@@ -50,16 +50,16 @@ class VerifyEmailController extends Controller
                 //qr-code
                 $imageName = uniqid() . '-' .Carbon::now()->timestamp;
 
-                // \QrCode::size(500)
-                // ->format('png')
-                //  ->generate($imageName, storage_path( 'app/public/qr-codes/'.$imageName.'.png' ));
+                \QrCode::size(500)
+                ->format('png')
+                 ->generate($qrcode, storage_path( 'app/public/qr-codes/'.$imageName.'.png' ));
 
                 RestrauntFile::create([
                     'restraunt_id'=>$user->id,
                     'folder'=>'qr-codes',
                     'filename'=>$imageName,
                 ]);
-                // Mail::to($user->email)->send(new MailQrCode($qrcode, $imageName.'.png'));
+                Mail::to($user->email)->send(new MailQrCode($qrcode, $imageName.'.png'));
                 return redirect(route('r-dashboard', $code));
             } else {
                 return redirect()->route('signup')->with(session()->flash('error', 'No such email'));
