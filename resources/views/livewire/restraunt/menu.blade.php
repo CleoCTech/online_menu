@@ -9,37 +9,49 @@
                             <h5>Slogan &amp; Example: delicious cuisine</h5>
                         </div>
                     </div>
+                    @foreach ($disheCategories as $disheCategory)
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                         <div class="menu-block mb60">
                             <div class="menu-head"> <span class="menu-icon">
-                                <img src="assets/img/burger.png" alt="Starters" class="icon-4x icon-primary" />
+                                {{-- <img src="assets/img/burger.png" alt="Starters" class="icon-4x icon-primary" /> --}}
                             </span>
-                                <h2 class="menu-title">starters</h2>
+                                <h2 class="menu-title">{{ $disheCategory->name }}</h2>
                             </div>
                             <div class="menu-list">
                                 <ul class="listnone">
+                                    @foreach ($disheCategory->dishes as $dish)
+                                    {{-- @if ($dish->menuCategory->status == 1) --}}
                                     <li>
                                         <div class="d-flex justify-content-start align-items-center">
                                             <div class="me-3">
-                                                <img src="assets/img/menu_dish_1.jpg " alt=" " class="img-fluid rounded-circle ">
+                                                {{-- {{ asset('storage/images/'.$article->image) }} --}}
+                                                <img src="{{ asset('storage/public/'.$resDetails->code.'/'.$dish->folder.'/'.$dish->filename) }}"
+                                                 alt=" " class="img-fluid rounded-circle " style="width:70px; height:70px;">
                                             </div>
                                             <div class="details ">
-                                                Aaloo Tikki....................................<span class="meta-price ">$10</span>
+                                                {{ $dish->name }}....................................
+                                                <span class="meta-price ">$ {{ $dish->prices[0]->price }}</span>
+                                                @if ($dish->allergnes)
+                                                <p class="sm">Contains: (
+                                                    @foreach ($this->getAllergnes($dish->id) as $item)
+                                                    {{ $item->allergene->name }},
+                                                    @endforeach)
+                                                 </p>
+                                                @endif
+
                                             </div>
                                         </div>
                                     </li>
-                                    <li>Corn Tikki.....................................<span class="meta-price ">$12</span></li>
-                                    <li>heese Balls....................................<span class="meta-price ">$15</span></li>
-                                    <li>Veg Crispy.....................................<span class="meta-price ">$10</span></li>
-                                    <li>Corn Spring Roll...........................<span class="meta-price ">$24</span></li>
-                                    <li>Harabhara Kabab..........................<span class="meta-price ">$10</span></li>
-                                    <li>Veg Lolipop...................................<span class="meta-price ">$18</span></li>
-                                    <li>Crispy Balls....................................<span class="meta-price ">$10</span></li>
+                                    {{-- @endif --}}
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ">
+
+                    @endforeach
+
+                    {{-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ">
                         <div class="menu-block mb60 ">
                             <div class="menu-head "> <span class="menu-icon ">
                                 <img src="assets/img/salad.png " alt="Starters " class="icon-4x icon-primary " />
@@ -80,7 +92,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>

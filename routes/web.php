@@ -57,7 +57,7 @@ Route::get('admin/signup',  [App\Http\Controllers\Auth\RegisterController::class
 Route::post('admin/signup',  [App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('admin-signup');
 
 Route::get('/r/{restaurant}/{table}', RestrauntMenu::class)->name('res-menu');
-
+//http://127.0.0.1:8000/r/Et_aut_voluptatem_es675810/Front_Table_4839930
 Route::get('/login', function () {
     return redirect()->route('admin-signup');
 })->name('login');
@@ -75,6 +75,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => 'auth:restraunt'], function () {
     Route::get('/r/{code}', Dashboard::class)->name('r-dashboard');
     Route::post('upload', [\App\Http\Controllers\UploadController::class, 'store']);
+    Route::post('destroy', [\App\Http\Controllers\UploadController::class, 'destroy']);
 });
 
 Route::group(['middleware' => 'auth:web'], function () {
@@ -90,5 +91,5 @@ Route::get('qr-code-g', function () {
             ->format('png')
            ->generate('wenlasoftwares.com', storage_path('qrcode.png'));
 
-  return view('qr-code');
+    return view('qr-code');
 });

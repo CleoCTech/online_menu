@@ -26,10 +26,10 @@ class CreateDish extends Component
     public $i=0;
     // public $allergenesBucket;
     public $allergenes = [];
-    public $dish_category_id, $menu_category_id, $dish_name = ''; 
+    public $dish_category_id, $menu_category_id, $dish_name = '';
     public $containsAllergene = false;
     public $frozen = false;
-    
+
     protected $listeners = ['refreshCreateDishView' => '$refresh'];
 
     protected $rules = [
@@ -42,22 +42,22 @@ class CreateDish extends Component
         'prices.*' => 'required',
     ];
 
-    
+
     public function mount()
     {
         session()->forget('files');
         $this->menuCategories = MenuCategory::
         where('restraunt_id', auth()->user()->id)
-        ->get(); 
+        ->get();
         $this->dishCategories = DishCategory::
         where('restaurant_id', auth()->user()->id)
-        ->get(); 
+        ->get();
         $this->allergenes = Allergene::
         where('restaurant_id', auth()->user()->id)
-        ->get(); 
+        ->get();
         $this->priceCategories = PriceCategory::
         where('restaurant_id', auth()->user()->id)
-        ->get(); 
+        ->get();
         if($this->priceCategories != null){
             $this->dishPriceCategories();
         }
@@ -99,7 +99,7 @@ class CreateDish extends Component
                 'showConfirmButton' =>  false,
           ])
         );
-        
+
         $success = false; //flag
 	    DB::beginTransaction();
         try {
@@ -112,7 +112,7 @@ class CreateDish extends Component
                 'frozen' => $this->frozen,
                 'allergnes' => $this->containsAllergene,
             ]);
-            
+
             foreach ($this->inputs as $key => $value) {
                 DishPrice::create([
                     'dish_id'=> $dish->id,
@@ -147,7 +147,7 @@ class CreateDish extends Component
                 DB::commit();
                 $this->resetFields();
             }
-           
+
         } catch (\Throwable $th) {
             DB::rollback();
 		    $success = false;
@@ -163,12 +163,12 @@ class CreateDish extends Component
                 'showConfirmButton' =>  false,
           ]);
         }
-       
+
     }
     public function addAllergene($id)
     {
         $holder = [];
-        for ($i=0; $i < 5; $i++) { 
+        for ($i=0; $i < 5; $i++) {
             dump('yes');
             array_push($holder, $i);
         }
@@ -188,7 +188,7 @@ class CreateDish extends Component
             unset($this->allergenesBucket[$key]);
         }else{//add id
             array_push($this->allergenesBucket, $id);
-        } 
+        }
     }
     public function searchForId($id, $array) {
         foreach ($array as $key => $val) {
@@ -226,7 +226,7 @@ class CreateDish extends Component
                 # code...
                 break;
         }
-    } 
+    }
     public function resetFields()
     {
         $this->dish_name = '';
@@ -236,6 +236,11 @@ class CreateDish extends Component
         $this->menu_category_id = '';
         $this->frozen =false;
         $this->containsAllergene = false;
-        
+        session()->forget('files');
+        $this->dispatchBrowserEvent('resetFields');
+    }
+    public function test(){
+        session()->forget('files');
+        $this->dispatchBrowserEvent('resetFields');
     }
 }

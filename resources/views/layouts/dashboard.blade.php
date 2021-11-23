@@ -34,6 +34,7 @@
         <!-- Theme CSS -->
         <link rel="stylesheet" href="{{ asset('admin-assets/assets/css/theme.min.css') }}" />
         <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+        <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         @livewireStyles
@@ -116,6 +117,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
             <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
             <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+            <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
             <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js" defer></script>
 
             <script src="{{ asset('admin-assets/assets/js/theme.min.js') }}"></script>

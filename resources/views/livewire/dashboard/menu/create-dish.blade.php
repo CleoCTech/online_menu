@@ -97,13 +97,14 @@
                             </h4>
                         </div>
                         <div class="row" x-data="{}">
-                            
+
                             <div wire:ignore class="mb-3 col-md-12">
                                 <label for="evntPoster" class="form-label">Image <span
                                         class="text-danger">*</span></label>
                                 <form action="#" class="dropzone mt-4 border-dashed">
+                                    @csrf
                                     <div class="fallback">
-                                        <input type="file" name="paperFile" id="test">
+                                        <input class="filepond--root" type="file" name="paperFile" id="test">
                                     </div>
                                 </form>
 
@@ -125,7 +126,7 @@
                                 </div>
                             </div>
                             @if ($containsAllergene)
-                            <div class="row" style="margin-left:1rem;"> 
+                            <div class="row" style="margin-left:1rem;">
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Check the allergenes in the box
                                         <span class="text-danger">*</span></label>
@@ -139,7 +140,7 @@
                                             </label>
                                         </li>
                                         @endforeach
-                                        
+
                                     </ul>
                                     <button x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-allergene-modal', 'Add Allergenes')" class="btn btn-primary btn-sm">Add New Allergene</button>
                                 </div>
@@ -152,6 +153,13 @@
                                     </button>
                                 </div>
                             </div>
+                            {{--  <div class="row">
+                                <div class="col-md-12">
+                                    <button wire:click='test' type="submit" class="btn w-full btn-primary">
+                                        Test
+                                    </button>
+                                </div>
+                            </div>  --}}
                         </div>
                     </div>
                 </div>
@@ -161,15 +169,51 @@
     </div>
 
     <script type="text/javascript">
+        var UPLOAD_FILES;
         const inputElement = document.querySelector('input[id="test"]');
+
+        FilePond.registerPlugin(FilePondPluginImagePreview);
         const pond = FilePond.create( inputElement );
+
         FilePond.setOptions({
-            server:{
-                url: '/upload',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }
+            allowReplace: true,
+            acceptedFileTypes: 'image/jpeg, image/png',
+            server: {
+                process: {
+                    url: '/upload',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    onload: (response) => {
+                        this.UPLOAD_FILES = response;
+                        // this.UPLOAD_FILES.push(response)
+                    }, // saving response in global array
+                },
+            },
+
         });
+    </script>
+    <script>
+         const filepond_root = document.querySelector('.filepond--root');
+         filepond_root.addEventListener('FilePond:processfilerevert', e => {
+            $.ajax({
+                url: "/destroy",
+                type: 'POST',
+                data : {"_token":"{{ csrf_token() }}", "UPLOAD_FILES": this.UPLOAD_FILES}  //pass the CSRF_TOKEN()
+                // data: {'_token': '{{!! csrf_token() !!}}', 'UPLOAD_FILES': this.UPLOAD_FILES}
+            })
+         });
+
+         window.addEventListener('resetFields', event => {
+            // Dispatch the event.
+            const btn = document.querySelector('.filepond--action-revert-item-processing');
+            btn.click();
+            console.log('created new');
+        })
+    </script>
+    <script>
+
+
     </script>
 </div>
