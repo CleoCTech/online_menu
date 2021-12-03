@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\DishCreatedEvent;
+use App\Events\ResPasswordResetEvent;
+use App\Listeners\ResPasswordResetListener;
 use App\Listeners\StoreFilesListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         DishCreatedEvent::class => [
             StoreFilesListener::class,
+        ],
+        ResPasswordResetEvent::class => [
+            ResPasswordResetListener::class,
         ],
     ];
 

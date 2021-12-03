@@ -49,6 +49,10 @@ Route::post('/r/set-password/{token}', [App\Http\Controllers\VerifyEmailControll
 
 Route::get('/r/signin',  [App\Http\Controllers\Auth\LoginController::class, 'resSgnin'])->name('restraunt-signin');
 Route::post('/r/signin',  [App\Http\Controllers\Auth\LoginController::class, 'resAuth'])->name('restraunt-auth');
+Route::get('/r/password/reset/{token}/{email}',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'showResetForm'])->name('r-password-rest');
+Route::post('/r/password/email',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'sendResetLinkEmail'])->name('r-password-email');
+Route::get('/r/password/forget',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'showForgetForm'])->name('r-password-forget');
+Route::post('/r/password/update',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'reset'])->name('r-password-update');
 
 Route::get('admin/signin',  [App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name('admin-signin');
 Route::post('admin/signin',  [App\Http\Controllers\Auth\LoginController::class, 'adminAuth'])->name('admin-auth');

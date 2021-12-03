@@ -35,7 +35,7 @@
                             <div class="col-lg-6 mb-5">
                                 <div class="card rounded-3 text-dark">
                                     <div class="card-header py-4 text-center fw-bold text-uppercase">
-                                        Login
+                                        {{ __('Reset Password') }}
                                     </div>
                                     <div class="card-body">
                                         {{-- @isset($url)
@@ -44,24 +44,27 @@
                                         {!!Form::open(['method'=>'POST', 'action'=>"{{ route('login')) }}", 'autocomplete'=>'off'])!!}
                                         @endisset --}}
                                         @isset($url)
-                                        <form method="POST" action='{{ url("$url") }}' aria-label="{{ __('Login') }}">
+                                        <form method="POST" action='{{ url("$url") }}' aria-label="{{ __('Reset Password') }}">
                                         @else
-                                        <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                                        <form method="POST" action="{{ route('password.update') }}" aria-label="{{ __('Reset Password') }}">
                                         @endisset
                                         @csrf
-                                        @if (session('status'))
-                                            <div class="alert alert-success" role="alert">
-                                                {{ session('status') }}
+
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         @endif
-                                        @if (session('msg'))
-                                            <div class="alert alert-danger" role="alert">
-                                                {{ session('msg') }}
-                                            </div>
-                                        @endif
+
+                                        <input type="hidden" name="token" value="{{ $token }}">
+
                                             <div class="mb-3">
                                                 <label class="small text-gray-600" for="userEmail">Email address</label>
-                                                <input name="email" class="form-control" id="userEmail"
+                                                <input name="email" value="{{ $email }}" class="form-control" id="userEmail"
                                                     type="email" />
                                             </div>
                                             <div class="mb-3">
@@ -69,26 +72,20 @@
                                                 <input name='password' class="form-control" id="password"
                                                     type="password" />
                                             </div>
+                                            <div class="mb-3">
+                                                <label class="small text-gray-600" for="password">Confirm Password</label>
+                                                <input name='password_confirmation' class="form-control" id="password"
+                                                    type="password" />
+                                            </div>
                                             <div class="mb-3 d-flex justify-content-between align-items-center">
-                                                <div><input name='remember' type="checkbox" id="remember" />
-                                                    Remember Me</div> <a href="{{ route('r-password-forget') }}" class="text-primary">Forgot
-                                                    password?</a>
+                                                <div></div> <a href="{{ route('restraunt-signin') }}" class="text-primary">Sign In Instead?</a>
                                             </div>
                                             <div class="d-grid">
                                                 <button  class="btn btn-primary fw-500"
                                                     type="submit">
-                                                    Sign In
+                                                    Reset Password
                                                 </button>
                                             </div>
-                                            <div class="my-3">
-                                                Don't have an account?
-                                                @isset($register)
-                                                <a href="{{ url("$register") }}"
-                                                class="text-primary">Register</a>
-                                                @endisset
-
-                                            </div>
-                                        {{-- {!!Form::close() !!} --}}
                                         </form>
                                     </div>
                                 </div>
