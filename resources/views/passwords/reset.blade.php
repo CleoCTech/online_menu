@@ -61,6 +61,7 @@
                                         @endif
 
                                         <input type="hidden" name="token" value="{{ $token }}">
+                                        <input type="hidden" name="url" value="{{ $url }}">
 
                                             <div class="mb-3">
                                                 <label class="small text-gray-600" for="userEmail">Email address</label>
@@ -78,7 +79,11 @@
                                                     type="password" />
                                             </div>
                                             <div class="mb-3 d-flex justify-content-between align-items-center">
-                                                <div></div> <a href="{{ route('restraunt-signin') }}" class="text-primary">Sign In Instead?</a>
+                                                @if ($url == 'admin/password/update')
+                                                <a href="{{ route('admin-signin') }}" class="text-primary">Sign In Instead?</a>
+                                                @elseif($url == 'r/password/update')
+                                                <a href="{{ route('restraunt-signin') }}" class="text-primary">Sign In Instead?</a>
+                                                @endif
                                             </div>
                                             <div class="d-grid">
                                                 <button  class="btn btn-primary fw-500"

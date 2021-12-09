@@ -45,12 +45,22 @@ class LoginController extends Controller
 
     public function resSgnin()
     {
-        return view('res-signin', ['url' => 'r/signin', 'register' => 'r/signin']);
+        return view('res-signin',
+         [
+             'url' => 'r/signin',
+             'register' => 'r/signin',
+             'resetPassUrl' => 'r-password-forget',
+        ]);
     }
 
     public function showAdminLoginForm()
     {
-        return view('res-signin', ['url' => 'admin/signin',  'register' => 'admin/signup']);
+        return view('res-signin',
+         [
+             'url' => 'admin/signin',
+             'register' => 'admin/signup',
+             'resetPassUrl' => 'admin-password-forget',
+        ]);
         // return view('res-signin');
     }
     public function resAuth(Request $request)

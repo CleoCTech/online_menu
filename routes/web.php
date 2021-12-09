@@ -54,6 +54,12 @@ Route::post('/r/password/email',  [App\Http\Controllers\Auth\PasswordRecoveryCon
 Route::get('/r/password/forget',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'showForgetForm'])->name('r-password-forget');
 Route::post('/r/password/update',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'reset'])->name('r-password-update');
 
+Route::get('/admin/password/forget',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'showForgetFormAdmin'])->name('admin-password-forget');
+Route::post('/admin/password/email',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'sendResetLinkEmail'])->name('admin-password-email');
+Route::get('/admin/password/reset/{token}/{email}',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'showResetFormAdmin'])->name('admin-password-rest');
+Route::post('/admin/password/update',  [App\Http\Controllers\Auth\PasswordRecoveryController::class, 'resetAdmin'])->name('admin-password-update');
+
+
 Route::get('admin/signin',  [App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name('admin-signin');
 Route::post('admin/signin',  [App\Http\Controllers\Auth\LoginController::class, 'adminAuth'])->name('admin-auth');
 

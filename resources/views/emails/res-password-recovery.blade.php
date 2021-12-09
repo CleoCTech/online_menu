@@ -3,7 +3,7 @@
 
 You are receiving this email because we received a password reset request for your account.
 
-@component('mail::button', ['url' => config('app.urlname').'r/password/reset/'.$token.'/'.$mail])
+@component('mail::button', ['url' => config('app.urlname').$resetUrl.'/'.$token.'/'.$mail])
 Reset Password
 @endcomponent
 

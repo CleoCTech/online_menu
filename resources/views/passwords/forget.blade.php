@@ -69,6 +69,7 @@
                                             </div>
                                         @endif
                                         <input type="hidden" name="token" value="{{ $token }}">
+                                        <input type="hidden" name="url" value="{{ $url }}">
 
                                             <div class="mb-3">
                                                 <label class="small text-gray-600 mb-3" for="userEmail">Email address</label>

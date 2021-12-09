@@ -8,6 +8,7 @@ use App\Mail\ResPasswordRecoveryMail;
 use App\Models\PasswordReset as ModelsPasswordReset;
 // use App\Models\PasswordReset;
 use App\Models\Restraunt;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules;
@@ -37,11 +38,33 @@ class PasswordRecoveryController extends Controller
         $url = 'r/password/update';
         return view('passwords.reset', ['url' =>$url, 'token' =>$token, 'email' =>$email]);
     }
+    public function showResetFormAdmin(Request $request)
+    {
+        $token = $request->route()->parameter('token');
+        $email = $request->route()->parameter('email');
+
+        $checkCredentials = ModelsPasswordReset::where('email', $email)
+        ->where('token', $token)
+        ->first();
+
+        if (!$checkCredentials) {
+            return redirect()->route('admin-signin')->with('msg', 'Token Expired');
+        }
+        $url = 'admin/password/update';
+        return view('passwords.reset', ['url' =>$url, 'token' =>$token, 'email' =>$email]);
+    }
     public function showForgetForm()
     {
         $token = Str::random(60);
         $token = hash('sha256', $token);
         $url = 'r/password/email';
+        return view('passwords.forget', ['url' =>$url, 'token' =>$token]);
+    }
+    public function showForgetFormAdmin()
+    {
+        $token = Str::random(60);
+        $token = hash('sha256', $token);
+        $url = 'admin/password/email';
         return view('passwords.forget', ['url' =>$url, 'token' =>$token]);
     }
 
@@ -73,25 +96,61 @@ class PasswordRecoveryController extends Controller
         return redirect()->route('restraunt-signin')->with('status', 'Your password has been updated successfully');
 
     }
+    public function resetAdmin(Request $request)
+    {
+        $request->validate($this->rules(), $this->validationErrorMessages());
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+
+        $credentials = $this->validateCredentials($this->credentials($request));
+        $this->resetPassword(
+            $credentials['user'],
+            $credentials['password'],
+        );
+        return redirect()->route('admin-signin')->with('status', 'Your password has been updated successfully');
+
+    }
     protected function validateCredentials($credentials)
     {
-        if ($credentials['password'] == $credentials['password_confirmation']){
-            $user = Restraunt::where('email', $credentials['email'])->first();
-            if ($user) {
-                return [
-                    'user' => $user,
-                    'password' => $credentials['password'],
-                ];
+        if ($credentials['url'] == 'r/password/update') {
+            if ($credentials['password'] == $credentials['password_confirmation']){
+                $user = Restraunt::where('email', $credentials['email'])->first();
+                if ($user) {
+                    return [
+                        'user' => $user,
+                        'password' => $credentials['password'],
+                    ];
+                } else {
+                    throw ValidationException::withMessages([
+                        $credentials['email'] => 'email does not exist with us',
+                    ]);
+                }
             } else {
                 throw ValidationException::withMessages([
-                    $credentials['email'] => 'email does not exist with us',
+                    $credentials['password'] => 'Password did not match.',
                 ]);
             }
-        } else {
-            throw ValidationException::withMessages([
-                $credentials['password'] => 'Password did not match.',
-            ]);
+        }elseif($credentials['url'] == 'admin/password/update'){
+            if ($credentials['password'] == $credentials['password_confirmation']){
+                $user = User::where('email', $credentials['email'])->first();
+                if ($user) {
+                    return [
+                        'user' => $user,
+                        'password' => $credentials['password'],
+                    ];
+                } else {
+                    throw ValidationException::withMessages([
+                        $credentials['email'] => 'email does not exist with us',
+                    ]);
+                }
+            } else {
+                throw ValidationException::withMessages([
+                    $credentials['password'] => 'Password did not match.',
+                ]);
+            }
         }
+
     }
     protected function resetPassword($user, $password)
     {
@@ -131,25 +190,37 @@ class PasswordRecoveryController extends Controller
     }
     protected function sendEmailcredentials(Request $request)
     {
-        return $request->only('email', 'token');
+        return $request->only('email', 'token', 'url');
     }
     protected function credentials(Request $request)
     {
         return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email', 'password', 'password_confirmation', 'token', 'url'
         );
     }
     protected function sendResetLink($credentials)
     {
        //send email reset link;
-       if ($this->checkEmail($credentials['email'])) {
+       if ($this->checkEmail($credentials['email'], $credentials['url'])) {
             ModelsPasswordReset::create([
                 'email' => $credentials['email'],
                 'token' => $credentials['token']
             ]);
-            Mail::to($credentials['email'])->send(new ResPasswordRecoveryMail($credentials['email'], $credentials['token']));
-            // return back()->with('status', 'We have emailed your password reset link');
-            // return redirect()->route('r-password-forget')->with('status', 'We have emailed your password reset link');
+            if ($credentials['url'] == 'admin/password/email') {
+
+                Mail::to($credentials['email'])
+                ->send(new ResPasswordRecoveryMail(
+                    $credentials['email'], $credentials['token'], 'admin/password/reset'
+                ));
+
+            } elseif ($credentials['url'] == 'r/password/email') {
+
+                Mail::to($credentials['email'])
+                ->send(new ResPasswordRecoveryMail(
+                    $credentials['email'], $credentials['token'], 'r/password/reset'
+                ));
+            }
+
        } else {
         throw ValidationException::withMessages([
             $credentials['email'] => 'email does not exist with us',
@@ -158,14 +229,28 @@ class PasswordRecoveryController extends Controller
        }
 
     }
-    protected function checkEmail($email)
+    protected function checkEmail($email, $url)
     {
-        $mail = Restraunt::where('email', $email)->first();
-        if ($mail) {
-            return true;
-        }else{
-            return false;
+        if ($url == 'admin/password/email') {
+
+            $mail = User::where('email', $email)->first();
+            if ($mail) {
+                return true;
+            }else{
+                return false;
+            }
+
+        } elseif($url == 'r/password/email') {
+
+            $mail = Restraunt::where('email', $email)->first();
+            if ($mail) {
+                return true;
+            }else{
+                return false;
+            }
+
         }
+
     }
 
 }

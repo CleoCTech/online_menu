@@ -13,15 +13,17 @@ class ResPasswordRecoveryMail extends Mailable
 
     public $mail;
     public $token;
+    public $resetUrl;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mail, $token)
+    public function __construct($mail, $token, $resetUrl)
     {
         $this->mail = $mail;
         $this->token = $token;
+        $this->resetUrl = $resetUrl;
     }
 
     /**

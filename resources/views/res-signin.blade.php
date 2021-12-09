@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="mb-3 d-flex justify-content-between align-items-center">
                                                 <div><input name='remember' type="checkbox" id="remember" />
-                                                    Remember Me</div> <a href="{{ route('r-password-forget') }}" class="text-primary">Forgot
+                                                    Remember Me</div> <a href="{{ route($resetPassUrl) }}" class="text-primary">Forgot
                                                     password?</a>
                                             </div>
                                             <div class="d-grid">
