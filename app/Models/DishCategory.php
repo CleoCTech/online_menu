@@ -11,7 +11,7 @@ class DishCategory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'restaurant_id'
+        'name', 'restaurant_id', 'status'
     ];
     /**
      * Get all of the dishes for the DishCategory

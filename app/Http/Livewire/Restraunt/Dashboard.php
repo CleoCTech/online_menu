@@ -22,7 +22,6 @@ class Dashboard extends Component
     }
     public function pageUpdate($page, $itemId)
     {
-        $this->page = $page;
         $this->itemId = $itemId;
         // $this->dispatchBrowserEvent('dateFormat',['id' => 'evntStartDate']);
         $this->dispatchBrowserEvent('stateChanged');

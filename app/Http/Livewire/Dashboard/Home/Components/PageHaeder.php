@@ -14,12 +14,18 @@ class PageHaeder extends Component
     public $icon = false;
     public $threads = [];
     public $getModal = false;
+    public $showModal = false;
     public $pageTitle;
+
+    protected $listeners = [
+        'shoModal' => 'shoModalFnx'
+    ];
+
     public function mount($title, $rightActionBtn, $rightBtnClass, $pageThread, $getModal, $nextPage, $pageTitle, $icon, array $threads)
     {
         // dd($threads);
         // unset($this->threads);
-        $this->threads = array();   
+        $this->threads = array();
         $this->title = $title;
         $this->rightActionBtn = $rightActionBtn;
         $this->rightBtnClass = $rightBtnClass;
@@ -47,5 +53,9 @@ class PageHaeder extends Component
             $this->emit('pageUpdate', $nextPage, '');
         }
 
+    }
+    public function shoModalFnx()
+    {
+        dd('her');
     }
 }

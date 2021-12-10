@@ -15,6 +15,7 @@
                 </form>
 
             </div>
+            @if ($list)
             <div>
                 <!-- Table -->
                 <div class="tab-content" id="tabContent">
@@ -65,7 +66,14 @@
                                                     </div>
                                                 </a>
                                             </td>
-                                            <td class="align-middle border-top-0">
+                                            <td class="align-middle border-top-0" x-data="{}">
+                                                @if ($item->status == 'Inactive')
+                                                <a wire:click='activate({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm" style="font-size: 0.575rem !important;">Activate</a>
+                                                @elseif($item->status == 'Active')
+                                                <a wire:click='deactivate({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm" style="font-size: 0.575rem !important;">Deactivate</a>
+                                                @endif
+                                                {{-- <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-dish-category-modal', 'Add Dish Category')" class="nav-link" href="#"> Add Dish/Drink Category </a> --}}
+                                                <a wire:click="getItem({{ $item->id }})"   href="#" class="btn btn-outline-primary btn-sm" style="font-size: 0.575rem !important;">Edit</a>
                                                 <a wire:click='delete({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm" style="font-size: 0.575rem !important;">Delete</a>
                                             </td>
                                         </tr>
@@ -86,11 +94,19 @@
                 </div>
             </div>
             {{ $categories->links('components.pagination-links') }}
+            @endif
         </div>
     </div>
     <div class="modal-footer p-0">
+
+        @if ($list)
         <button type="button" class="btn btn-secondary btn-sm" x-on:click = "open = false">Close</button>
         <button type="button" wire:click='store' class="btn btn-primary btn-sm">Save</button>
+        @else
+        <button type="button" class="btn btn-secondary btn-sm" wire:click = "back">Back</button>
+        <button type="button" wire:click='update' class="btn btn-primary btn-sm">Update</button>
+        @endif
+        
     </div>
 
     <style>

@@ -13,7 +13,8 @@ class AddDishCategoryModal extends Component
     use WithPagination;
 
     public $category;
-
+    public $list = true;
+    public $editId = '';
     protected $rules = [
         'category' => 'required',
     ];
@@ -28,9 +29,9 @@ class AddDishCategoryModal extends Component
     }
     public function store(){
         $this->validate();
-
+        $success = false; //flag
+	    DB::beginTransaction();
         try {
-            DB::transaction();
             DishCategory::create(['name' => $this->category]);
             $this->alert('success', 'Saved Successfully', [
                 'position' =>  'top-end',
@@ -42,11 +43,14 @@ class AddDishCategoryModal extends Component
                 'cancelButtonText' =>  'Cancel',
                 'showCancelButton' =>  false,
                 'showConfirmButton' =>  false,
-          ]);
-        //   $this->emit('render-dishes');
-            DB::commit();
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+            }
         } catch (Exception $e) {
             DB::rollBack();
+            $success = false;
             $this->alert('error', 'Oops! Something went wrong', [
                 'position' =>  'top-end',
                 'timer' =>  3000,
@@ -60,7 +64,133 @@ class AddDishCategoryModal extends Component
             ]);
         }
     }
-
+    public function update()
+    {
+        $this->validate();
+        $success = false; //flag
+        DB::beginTransaction();
+        try {
+            
+            DishCategory::where('id', $this->editId)
+            ->update([
+                'name' => $this->category,
+            ]);
+            
+            $this->alert('success', 'Updated Successfully', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            $success = false;
+            $this->alert('error', 'Oops! Something went wrong', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
+    }
+    public function activate($id)
+    {
+        $success = false; //flag
+        DB::beginTransaction();
+        try {
+            
+            DishCategory::where('id', $id)
+            ->update([
+                'status' => 'Active',
+            ]);
+            
+            $this->alert('success', 'Activated Successfully', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            $success = false;
+            $this->alert('error', 'Oops! Something went wrong', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
+    }
+    public function deactivate($id)
+    {
+        $success = false; //flag
+        DB::beginTransaction();
+        try {
+            
+            DishCategory::where('id', $id)
+            ->update([
+                'status' => 'Inactive',
+            ]);
+            
+            $this->alert('success', 'Deactivated Successfully', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            $success = false;
+            $this->alert('error', 'Oops! Something went wrong', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
+    }
     public function delete($id)
     {
         DB::transaction(function () use ($id) {
@@ -93,5 +223,27 @@ class AddDishCategoryModal extends Component
                 ]);
             }
         });
+    }
+    public function openModal($modal, $pageTitle)
+    {
+        $this->emit('updateModal', $modal, $pageTitle);
+        $this->emitUp('showModal', true);
+        $this->dispatchBrowserEvent('showModal', true);
+    }
+    public function getItem($id)
+    {
+        $getCategory = DishCategory::select('id', 'name')
+        ->where('id', $id)->first();
+        if ($getCategory) {
+            $this->category = $getCategory->name;
+            $this->editId = $getCategory->id;
+        }
+        $this->list = false;
+    }
+    public function back()
+    {
+        $this->list = true;
+        $this->category = null;
+        $this->editId = null;
     }
 }

@@ -53,7 +53,7 @@
     </div>
 
     <div class='loadingx'
-        x-cloak x-data="{ open: false}"
+        x-cloak x-data="{ open: @entangle('showModal')}"
         x-show="open"
         x-on:dlg-modal.window = "open = true"
         x-on:keyup.escape.window = "open = false"

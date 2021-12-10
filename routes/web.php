@@ -7,6 +7,7 @@ use App\Http\Livewire\Signup;
 use App\Http\Livewire\Signin;
 use App\Mail\TestMail;
 use App\Mail\VerifyMail;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;

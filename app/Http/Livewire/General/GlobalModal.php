@@ -8,6 +8,7 @@ class GlobalModal extends Component
 {
     public $modal;
     public $pageTitle;
+    public $showModal = true;
 
     protected $listeners = [
         'updateModal' => 'getModalName'
@@ -19,7 +20,9 @@ class GlobalModal extends Component
     }
 
     public function getModalName($value, $pageTitle){
+
         $this->modal = $value;
         $this->pageTitle = $pageTitle;
+        // $this->emit('showModal', 'true');
     }
 }
