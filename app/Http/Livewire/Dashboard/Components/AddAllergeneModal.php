@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Dashboard\Components;
 
+use Livewire\WithPagination;
 use App\Models\Allergene;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Http\Livewire\General\Modal;
 use Livewire\Component;
-use Livewire\WithPagination;
 
-class AddAllergeneModal extends Component
+class AddAllergeneModal extends Modal
 {
     use WithPagination;
 
@@ -17,13 +18,16 @@ class AddAllergeneModal extends Component
     protected $rules = [
         'allergene' => 'required',
     ];
+
     public function render()
     {
-        $allergenes = Allergene::
+        $categories = Allergene::
         where('restaurant_id', auth()->user()->id)
         ->latest()
         ->paginate(2);
-        return view('livewire.dashboard.components.add-allergene-modal', compact('allergenes', $allergenes));
+        return view('livewire.dashboard.components.add-allergene-modal', [
+            'allergenes'=>$categories
+        ]);
     }
     public function store(){
         $this->validate();
@@ -96,5 +100,4 @@ class AddAllergeneModal extends Component
             }
         });
     }
-
 }

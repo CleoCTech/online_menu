@@ -7,13 +7,13 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Http\Livewire\General\Modal;
 
-class AddDishCategoryModal extends Component
+class AddDishCategoryModal extends Modal
 {
     use WithPagination;
 
     public $category;
-    public $list = true;
     public $editId = '';
     protected $rules = [
         'category' => 'required',
@@ -70,12 +70,12 @@ class AddDishCategoryModal extends Component
         $success = false; //flag
         DB::beginTransaction();
         try {
-            
+
             DishCategory::where('id', $this->editId)
             ->update([
                 'name' => $this->category,
             ]);
-            
+
             $this->alert('success', 'Updated Successfully', [
                 'position' =>  'top-end',
                 'timer' =>  3000,
@@ -112,12 +112,12 @@ class AddDishCategoryModal extends Component
         $success = false; //flag
         DB::beginTransaction();
         try {
-            
+
             DishCategory::where('id', $id)
             ->update([
                 'status' => 'Active',
             ]);
-            
+
             $this->alert('success', 'Activated Successfully', [
                 'position' =>  'top-end',
                 'timer' =>  3000,
@@ -154,12 +154,12 @@ class AddDishCategoryModal extends Component
         $success = false; //flag
         DB::beginTransaction();
         try {
-            
+
             DishCategory::where('id', $id)
             ->update([
                 'status' => 'Inactive',
             ]);
-            
+
             $this->alert('success', 'Deactivated Successfully', [
                 'position' =>  'top-end',
                 'timer' =>  3000,

@@ -5,15 +5,15 @@
     </div>
     <div class="row">
         <!-- Page header -->
-        <div class="col-lg-12 col-md-12 col-12" x-data=''>
+        <div class="col-lg-12 col-md-12 col-12" >
             <div class="
-              border-bottom
-              pb-4
-              mb-4
-              d-md-flex
-              align-items-center
-              justify-content-between
-            ">
+                border-bottom
+                pb-4
+                mb-4
+                d-md-flex
+                align-items-center
+                justify-content-between
+                ">
                 <div class="mb-3 mb-md-0">
                     <h1 class="mb-1 h2 fw-bold">{{ $title }}</h1>
                     <!-- Breadcrumb -->
@@ -42,8 +42,9 @@
                      href="#" class="{{ $rightBtnClass }}"> {{ $rightActionBtn }}</a>
                 </div>
                 @else
-                <div x-data='' class="">
-                    <a x-data="{}"
+                <div class="">
+                    <a x-data= "{}"
+                     {{--  x-on:click = "window.livewire.emitTo('{{ $nextPage }}', 'show', '{{ $pageTitle }}')"  --}}
                      x-on:click="$dispatch('dlg-modal');$wire.rightBtnAction('{{ $nextPage }}', '{{ $pageTitle }}')"
                      href="#" class="{{ $rightBtnClass }}"> {{ $rightActionBtn }}</a>
                 </div>
@@ -52,8 +53,9 @@
         </div>
     </div>
 
+
     <div class='loadingx'
-        x-cloak x-data="{ open: @entangle('showModal')}"
+        x-cloak x-data="{ open: false}"
         x-show="open"
         x-on:dlg-modal.window = "open = true"
         x-on:keyup.escape.window = "open = false"
@@ -62,4 +64,11 @@
         @livewire('general.global-modal')
     </div>
     @stack('scripts')
+    {{--  @livewire('dashboard.components.contac-modal')
+    @livewire('dashboard.components.add-allergene-modal')
+    @livewire('dashboard.components.add-dish-category-modal')
+    @livewire('dashboard.components.add-price-category-modal')
+    @livewire('dashboard.components.add-menu-food-category-modal')
+    @livewire('dashboard.components.add-menu-category-modal')  --}}
+
 </div>

@@ -8,20 +8,17 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Http\Livewire\General\Modal;
 
-class AddMenuCategoryModal extends Modal
+class AddMenuFoodCategoryModal extends Modal
 {
     public $catName;
-    protected $listeners = [
-        
-    ];
     protected $rules = [
         'catName' => 'required',
     ];  
+
     public function render()
     {
-        return view('livewire.dashboard.components.add-menu-category-modal');
+        return view('livewire.dashboard.components.add-menu-food-category-modal');
     }
-
     public function store(){
         $this->validate();
         $success = false; //flag
@@ -46,7 +43,7 @@ class AddMenuCategoryModal extends Modal
           $success = true;
           if ($success) {
             DB::commit();
-            $this->emit('render');
+            // $this->emit('render');
           }
         } catch (\Throwable $th) {
             DB::rollBack();

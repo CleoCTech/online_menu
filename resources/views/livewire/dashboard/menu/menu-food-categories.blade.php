@@ -1,17 +1,18 @@
 <div>
-    {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
+    {{-- Stop trying to control. --}}
     <div wire:loading >
         @livewire('general.loader')
     </div>
     <div class="container-fluid p-4">
-        <!-- Page header -->
+         <!-- Page header -->
+         
         @livewire('dashboard.home.components.page-haeder',
         ['title' => 'Menu Categories',
         'rightActionBtn' => 'Add Menu Category',
         'rightBtnClass' => 'btn btn-primary',
         'pageThread' => true,
         'getModal' => true,
-        'nextPage' => 'dashboard.components.add-menu-category-modal',
+        'nextPage' => 'dashboard.components.add-menu-food-category-modal',
         'pageTitle' => 'Add Menu Category',
         'icon' => true,
         'threads' => ['Admin', 'Menu Categories', 'Active' => 'All']])
@@ -117,12 +118,12 @@
 
                                                     </td>
                                                     <td class="align-middle border-top-0">
-                                                        <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-menu-category-modal', 'Edit Menu Category', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Eidt</a>
+                                                        <a wire:click='show({{ $item->id }})'  href="#" class="btn btn-outline-primary btn-sm">Eidt</a>
                                                     </td>
 
                                                     <td class="align-middle border-top-0">
                                                         @if ($item->status == 0)
-                                                        <a wire:click="activate('{{ $item->id }}')" href="#" class="btn btn-outline-success btn-sm">Activate</a>
+                                                        <a wire:click="try('{{ $item->id }}')" href="#" class="btn btn-outline-success btn-sm">Activate</a>
                                                         @elseif($item->status == 1)
                                                         <a wire:click="deactivate('{{ $item->id }}')" href="#" class="btn btn-outline-warning btn-sm">Deactivate</a>
 
@@ -207,7 +208,7 @@
 
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-menu-category-modal', 'Edit Menu Category', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Eidt</a>
+                                                    <a wire:click='show({{ $item->id }})'  href="#" class="btn btn-outline-primary btn-sm">View</a>
                                                 </td>
 
                                                 <td class="align-middle border-top-0">
@@ -298,7 +299,7 @@
 
                                                     </td>
                                                     <td class="align-middle border-top-0">
-                                                        <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-menu-category-modal', 'Edit Menu Category', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Eidt</a>
+                                                        <a wire:click='show({{ $item->id }})'  href="#" class="btn btn-outline-primary btn-sm">View</a>
                                                     </td>
 
                                                     <td class="align-middle border-top-0">

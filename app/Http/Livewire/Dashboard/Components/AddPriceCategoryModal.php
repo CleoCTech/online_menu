@@ -7,13 +7,14 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Http\Livewire\General\Modal;
 
-class AddPriceCategoryModal extends Component
+class AddPriceCategoryModal extends Modal
 {
     use WithPagination;
 
     public $category;
-
+    // public $categories;
     protected $rules = [
         'category' => 'required',
     ];
@@ -23,6 +24,7 @@ class AddPriceCategoryModal extends Component
         where('restaurant_id', auth()->user()->id)
         ->latest()
         ->paginate(2);
+        // $this->categories = $categories;
         return view('livewire.dashboard.components.add-price-category-modal', compact('categories', $categories));
     }
     public function store(){

@@ -49,14 +49,32 @@
                             </li>
                             <!-- Nav item -->
                             <li  class="nav-item">
-                                <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-dish-category-modal', 'Add Dish Category')" class="nav-link" href="#"> Add Dish/Drink Category </a>
+                            <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-dish-category-modal', 'Add Dish Category')" 
+                            class="nav-link" href="#"> Add Dish/Drink Category </a>
+                                 {{--  <a x-data = "{}"
+                                
+                                x-on:click = "window.livewire.emitTo('dashboard.components.add-dish-category-modal', 'show', 'Add Dish Category')" 
+                                class="nav-link" href="#"> Add Dish/Drink Category </a>  --}}
                             </li>
                             <li class="nav-item">
-                                <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-price-category-modal', 'Add Price Category')" class="nav-link" href="#"> Add Price Category  </a>
+                                <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-price-category-modal', 'Add Price Category')" 
+                                class="nav-link" href="#"> Add Price Category </a>
+                                {{--  <a x-data = "{}"
+                                x-on:click = "window.livewire.emitTo('dashboard.components.add-price-category-modal', 'show', 'Add Price Category')"
+                                class="nav-link" href="#"> Add Price Category  </a>  --}}
                             </li>
                             <li class="nav-item">
-                                <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-allergene-modal', 'Add Allergenes')" class="nav-link" href="#"> Add Allergenes  </a>
+                                <a x-on:click="$dispatch('dlg-modal');$wire.openModal('dashboard.components.add-allergene-modal', 'Add Allergenes')" 
+                                class="nav-link" href="#"> Add Allergenes </a>
+                                {{--  <a  x-data = "{}" 
+                                x-on:click = "window.livewire.emitTo('dashboard.components.add-allergene-modal', 'show', 'Add Allergenes')"
+                                class="nav-link" href="#"> Add Allergenes  </a>  --}}
                             </li>
+                            {{--  <li class="nav-item">
+                                <a id="contac-modal" x-data = "{}"
+                                x-on:click = "window.livewire.emitTo('dashboard.components.contac-modal', 'show', 'Contact Modal')"
+                                class="nav-link" href="#"> Try Modal  </a>
+                            </li>  --}}
                         </ul>
                     </div>
                 </li>
@@ -86,16 +104,6 @@
                 </li>
                 @endif
                 <!-- Nav item -->
-
-                <!-- Nav item -->
-                {{-- <div class='loadingx'
-                    x-cloak x-data="{ open: false}"
-                    x-show="open"
-                    x-on:dlg-modal.window = "open = true"
-                    x-on:keyup.escape.window = "open = false"
-                    >
-                    @livewire('general.global-modal')
-                </div> --}}
             </ul>
         </div>
     </nav>
@@ -104,4 +112,12 @@
             transform: rotate(180deg);
         }
     </style>
+    <script>
+        function handleClick(e) {
+        //   event.target.getAttribute("data-sortorder");
+            console.log(e.target.getAttribute("id"));
+            Livewire.emitTo(e.target.getAttribute("id"), 'show');
+        // Now you can access the event object (e) directly
+        }
+    </script>
 </div>

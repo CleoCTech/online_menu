@@ -8,10 +8,12 @@ class GlobalModal extends Component
 {
     public $modal;
     public $pageTitle;
-    public $showModal = true;
+    public $editId;
 
     protected $listeners = [
-        'updateModal' => 'getModalName'
+        'updateModal' => 'getModalName',
+        'refresh' => '$refresh',
+        'editModal' => 'editModal'
     ];
 
     public function render()
@@ -20,9 +22,14 @@ class GlobalModal extends Component
     }
 
     public function getModalName($value, $pageTitle){
-
         $this->modal = $value;
         $this->pageTitle = $pageTitle;
-        // $this->emit('showModal', 'true');
+    }
+    public function editModal($modal, $pageTitle, $id)
+    {
+        $this->modal = $modal;
+        $this->pageTitle = $pageTitle;
+        $this->emit('updateeditId', $id);
+        $this->editId = $id;
     }
 }

@@ -13,7 +13,7 @@ class MenuCategories extends Component
 
     use WithPagination;
     public $categoryId, $modal, $catName;
-    protected $listeners = ['render', 'render'];
+    protected $listeners = ['refreshMenuCategories', '$refresh'];
 
     public function render()
     {
@@ -23,12 +23,17 @@ class MenuCategories extends Component
         ->paginate(10);
         return view('livewire.dashboard.menu.menu-categories', compact('menulist', $menulist));
     }
-    public function show($id)
+    public function openModal($modal, $pageTitle, $id)
     {
-        $this->modal= 'livewire.dashboard.components.add-menu-category-modal';
+        $this->emit('editModal', $modal, $pageTitle, $id);
+    }
+    public function try($id)
+    {
+        dd($id);
     }
     public function activate($id)
     {
+
         DB::transaction(function () use ($id) {
             try {
 

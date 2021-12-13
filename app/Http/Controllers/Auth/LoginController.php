@@ -48,7 +48,7 @@ class LoginController extends Controller
         return view('res-signin',
          [
              'url' => 'r/signin',
-             'register' => 'r/signin',
+             'register' => '/',
              'resetPassUrl' => 'r-password-forget',
         ]);
     }

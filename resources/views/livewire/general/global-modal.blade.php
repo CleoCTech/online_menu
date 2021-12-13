@@ -1,7 +1,10 @@
 <div>
     {{-- Stop trying to control. --}}
 
-    <div class="modal-content" x-on:click.outside = "open = false">
+    @if ($modal == null)
+        @livewire('general.loader')
+    @else
+    <div class="modal-content" x-data x-on:click.outside = "open = false">
         <div class="modal-header align-items-center">
             <h4 class="mb-0" id="newchatModalLabel">{{isset($pageTitle) ? $pageTitle:''}}</h4>
             <button
@@ -11,15 +14,22 @@
               x-on:click = "open = false"
             ></button>
         </div>
-         @if($modal == null)
-            @livewire('general.loader')
-         @else
-         {{-- @include($modal) --}}
-         @livewire($modal)
-         @endif
-
+        @if ($modal == 'dashboard.components.add-allergene-modal')
+            @livewire('dashboard.components.add-allergene-modal')
+        @elseif($modal == 'dashboard.components.add-dish-category-modal')
+            @livewire('dashboard.components.add-dish-category-modal')
+        @elseif($modal == 'dashboard.components.add-price-category-modal')
+            @livewire('dashboard.components.add-price-category-modal')
+        @elseif($modal == 'dashboard.components.add-menu-category-modal')
+            @livewire('dashboard.components.add-menu-category-modal')
+        @elseif($modal == 'dashboard.components.edit-menu-category-modal')
+            @livewire('dashboard.components.edit-menu-category-modal', ['id'=>$editId])
+        @else
+            @livewire($modal)
+        @endif
+        {{--  @livewire($modal)  --}}
     </div>
-
+    @endif
     <style>
 
         .page-link{

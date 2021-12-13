@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Dashboard\Home\Components;
 
+use Livewire\WithPagination;
 use Livewire\Component;
 
 class PageHaeder extends Component
 {
+    use WithPagination;
+
     public $rightBtnClass ="btn btn-outline-white";
     public $rightActionBtn;
     public $title;
@@ -14,12 +17,9 @@ class PageHaeder extends Component
     public $icon = false;
     public $threads = [];
     public $getModal = false;
-    public $showModal = false;
     public $pageTitle;
 
-    protected $listeners = [
-        'shoModal' => 'shoModalFnx'
-    ];
+
 
     public function mount($title, $rightActionBtn, $rightBtnClass, $pageThread, $getModal, $nextPage, $pageTitle, $icon, array $threads)
     {
@@ -49,13 +49,10 @@ class PageHaeder extends Component
     {
         if ($this->getModal) {
             $this->emit('updateModal', $nextPage, $pageTitle);
+            // $this->emitTo($nextPage, 'show', $pageTitle);
         }else{
             $this->emit('pageUpdate', $nextPage, '');
         }
 
-    }
-    public function shoModalFnx()
-    {
-        dd('her');
     }
 }

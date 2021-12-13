@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +40,10 @@ Route::get('/storage-link', function() {
  });
 
 Route::get('/test-email', function () {
-    return new TestMail();
+    return Mail::to('cleoctech@gmail.com')
+    ->send(new TestMail());
 });
+
 //Route::post('upload', [App\Http\Controllers\UploadController::class, 'store'])->name('upload');
 Route::get('/', Signup::class)->name('signup');
 // Route::get('/r/signin', Signin::class)->name('signin');
