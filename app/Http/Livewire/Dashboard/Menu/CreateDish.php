@@ -120,12 +120,15 @@ class CreateDish extends Component
                     'category_id'=> $this->pCatgeoriesIds[$key],
                 ]);
             }
-            foreach ($this->allergenesBucket as $key => $value) {
-                if ($value) {
-                    AllergicFood::create([
-                        'dish_id' => $dish->id,
-                        'allergene_id' => $key,
-                    ]);
+            if($this->containsAllergene){
+
+                foreach ($this->allergenesBucket as $key => $value) {
+                    if ($value) {
+                        AllergicFood::create([
+                            'dish_id' => $dish->id,
+                            'allergene_id' => $key,
+                        ]);
+                    }
                 }
             }
             $this->alert('success', 'Saved Successfully!', [

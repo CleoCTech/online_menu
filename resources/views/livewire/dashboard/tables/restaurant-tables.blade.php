@@ -136,7 +136,7 @@
 
                                                     </td>
                                                     <td class="align-middle border-top-0">
-                                                        <a wire:click='show({{ $item->id }})'  href="#" class="btn btn-outline-primary btn-sm">View</a>
+                                                        <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-table-modal', 'Edit Table', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Edit</a>
                                                     </td>
 
                                                     <td class="align-middle border-top-0">
@@ -240,7 +240,7 @@
 
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    <a wire:click='show({{ $item->id }})'  href="#" class="btn btn-outline-primary btn-sm">View</a>
+                                                    <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-table-modal', 'Edit Table', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Edit</a>
                                                 </td>
 
                                                 <td class="align-middle border-top-0">
@@ -345,7 +345,7 @@
 
                                                     </td>
                                                     <td class="align-middle border-top-0">
-                                                        <a wire:click='show({{ $item->id }})'  href="#" class="btn btn-outline-primary btn-sm">View</a>
+                                                        <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-table-modal', 'Edit Table', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Edit</a>
                                                     </td>
 
                                                     <td class="align-middle border-top-0">

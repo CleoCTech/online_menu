@@ -9,5 +9,8 @@
     @livewire('dashboard.menu.create-dish')
     @elseif($page == 'menu-list')
     @livewire('dashboard.menu.menu-list')
+    @elseif($page == 'edit-dish')
+    @livewire('dashboard.menu.edit-dish', ['id' => $itemId])
+    {{-- @livewire('dashboard.menu.edit-dish') --}}
     @endif
 </div>

@@ -147,4 +147,8 @@ class RestaurantTables extends Component
             }
         });
     }
+    public function openModal($modal, $pageTitle, $id)
+    {
+        $this->emit('editModal', $modal, $pageTitle, $id);
+    }
 }

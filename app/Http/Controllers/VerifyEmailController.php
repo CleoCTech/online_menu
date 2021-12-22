@@ -70,7 +70,7 @@ class VerifyEmailController extends Controller
     }
 
     public function genarateCode($prefix)
-    {   
+    {
         $prefix = preg_replace('/\s+/', '_', $prefix);
         $code= '';
         $six_digit_random_number = random_int(100000, 999999) + 101029;

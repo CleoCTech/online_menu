@@ -1,12 +1,12 @@
 <div>
-    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    {{-- Because she competes with no one, no one can compete with her. --}}
     <div wire:loading wire:target="store">
         @livewire('general.loader')
     </div>
     <div class="container-fluid p-4">
         <!-- Page header -->
         @livewire('dashboard.home.components.page-haeder',
-        ['title' => 'Add Dish/Drink',
+        ['title' => 'Edit Dish/Drink',
         'rightActionBtn' => 'Back',
         'rightBtnClass' => 'btn btn-primary',
         'pageThread' => true,
@@ -14,7 +14,7 @@
         'nextPage' => 'menu-list',
         'pageTitle' => '',
         'icon' => true,
-        'threads' => ['Admin', 'Menu List', 'Active' => 'Add Dish']])
+        'threads' => ['Admin', 'Edit Dish', 'Active' => 'Edit']])
         <!-- Page header End -->
         <div class="row">
             <div class="col-xl-9 col-lg-8 col-md-12 col-12">
@@ -22,7 +22,7 @@
                 <div class="card border-0 mb-4">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h4 class="mb-0">Add Dish</h4>
+                        <h4 class="mb-0">Edit Dish</h4>
                     </div>
                     <!-- Card body -->
                     <div class="card-body">
@@ -45,10 +45,15 @@
                                 <label class="form-label">Menu Category
                                     <span class="text-danger">*</span></label>
                                 <select wire:model.defer='menu_category_id' class="form-control" id="" data-width="100%">
-                                    <option selected disabled>Select Menu Category</option>
+
                                     @foreach ($menuCategories as $menuCategory)
+                                    @if($menuCategory->id == $menu_category_id)
+                                    <option value="{{ $menuCategory->id }}" selected>{{ $menuCategory->name }}
+                                    </option>
+                                    @else
                                     <option value="{{ $menuCategory->id }}">{{ $menuCategory->name }}
                                     </option>
+                                    @endif
                                     @endforeach
                                 </select>
                                 @error('menu_category_id') <span class="text-danger error">{{ $message }}</span>@enderror
@@ -96,9 +101,18 @@
                                 <i class="fe fe-info"></i> Other Details
                             </h4>
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="Image" class="form-label">Current Image</label>
+                            {{-- <img style="max-height: 218px; max-width: 153px;"
+                            src="/storage/event_flyers/{{$recent_post->cover_image}}"
+                            class="img-fluid"> --}}
+                            <img src="/storage/public/{{ $restaurantName->code }}/{{ $folder }}/{{ $filename }}" alt="" srcset="" class="image-fluid " alt="poster" style="width:100%">
+                        </div>
+
                         <div class="row" x-data="{}">
 
                             <div wire:ignore class="mb-3 col-md-12">
+                                <p class="alert alert-warning">Warning!. Uploading another image will delete the current image.</p>
                                 <label for="evntPoster" class="form-label">Image <span
                                         class="text-danger">*</span></label>
                                 <form action="#" class="dropzone mt-4 border-dashed">
@@ -133,8 +147,9 @@
                                     <ul class="list-inline border border-2 border-primary">
                                         @foreach ($allergenes as $item)
                                         <li class="list-inline-item">
-                                            <input wire:model='allergenesBucket.{{ $item->id }}'
-                                             class="form-check-input" type="checkbox">
+                                            <input id="allergene.{{ $item->id }}" wire:model='allergenesBucket.{{ $item->id }}'
+                                             class="form-check-input" type="checkbox" checked
+                                             >
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 {{ $item->name }}
                                             </label>
@@ -149,7 +164,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <button wire:click='store' type="submit" class="btn w-full btn-primary">
-                                        Submit
+                                        Update
                                     </button>
                                 </div>
                             </div>
@@ -195,6 +210,28 @@
         });
     </script>
     <script>
+
+        $("document").ready(function() {
+            window.livewire.emit('getactualdishAllergnes');
+
+        })
+
+        window.addEventListener('allergnes-updated', event => {
+            var dishAllergnes = event.detail.actualdishAllergnes;
+
+            dishAllergnes.forEach((item, index)=>{
+                var element = document.getElementById('allergene.' + item);
+                element.click();
+            })
+            // $("#allergene.1").ready(function() {
+            //     console.log('ready2');
+
+            //     var element = document.getElementById('allergene.1');
+            //     element.click();
+            // });
+
+        })
+
          const filepond_root = document.querySelector('.filepond--root');
          filepond_root.addEventListener('FilePond:processfilerevert', e => {
             $.ajax({

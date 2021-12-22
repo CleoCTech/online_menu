@@ -298,7 +298,7 @@
 
                                                     </td>
                                                     <td class="align-middle border-top-0">
-                                                        <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-menu-category-modal', 'Edit Menu Category', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Eidt</a>
+                                                        <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-menu-category-modal', 'Edit Menu Category', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Edit</a>
                                                     </td>
 
                                                     <td class="align-middle border-top-0">

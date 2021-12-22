@@ -3,28 +3,51 @@
 namespace App\Http\Livewire\Dashboard\Components;
 
 use App\Models\RestrauntTable;
-use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Models\Restraunt;
 use App\Mail\QrCode as MailQrCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use App\Models\Restraunt;
 use Livewire\Component;
 
-class AddTableModal extends Component
+class EditTableModal extends Component
 {
+    public $editId;
     public $tableName;
+    public $code;
 
-    protected $rules = [
-        'tableName' => 'required',
+    protected $listeners = [
+        'updateeditId' => 'updateeditId',
+        'refreshEditTable' => '$refresh'
     ];
+    public function mount($id)
+    {
+        $this->editId = $id;
+        if($this->editId != null){
+            $getData = RestrauntTable::where('id', $this->editId)->first();
+            $this->tableName = $getData->name;
+            $this->code = $getData->code;
+        }
+    }
     public function render()
     {
-        return view('livewire.dashboard.components.add-table-modal');
+
+        return view('livewire.dashboard.components.edit-table-modal');
     }
-    public function store(){
-        $this->validate();
+    public function updateeditId($id)
+    {
+        $this->editId = $id;
+        $this->emit('refreshEditMenu');
+    }
+    public function onChange()
+    {
+        $prefix = $this->tableName;
+        $code = $this->genarateCode($prefix);
+        $this->code = $code;
+    }
+    public function store()
+    {
         $success = false; //flag
         DB::beginTransaction();
         try {
@@ -32,22 +55,20 @@ class AddTableModal extends Component
             $prefix = $this->tableName;
             $code = $this->genarateCode($prefix);
             $res = Restraunt::where('id', auth()->user()->id)->first();
-            RestrauntTable::create([
-                'restraunt_id' => auth()->user()->id,
+            RestrauntTable::where('id', $this->editId)
+            ->update([
                 'name' => $this->tableName,
-                'code' => $code,
+                'code' => $this->code,
             ]);
-
             $domain = config('app.urlname');
             $domain = $domain .'r/'.$res->code .'/';
-            $qrcode = $domain . $code;
+            $qrcode = $domain . $this->code;
              //qr-code
             $imageName = uniqid() . '-' .Carbon::now()->timestamp;
             \QrCode::size(500)
             ->format('png')
              ->generate($qrcode, storage_path( 'app/public/qr-codes/'.$imageName.'.png' ));
             Mail::to(auth()->user()->email)->send(new MailQrCode($qrcode, $imageName.'.png'));
-            session()->flash('success', 'Saved Successfully');
 
             $success = true;
             if ($success) {
@@ -63,9 +84,8 @@ class AddTableModal extends Component
                     'showCancelButton' =>  false,
                     'showConfirmButton' =>  false,
                 ]);
-                $this->emit('render');
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             $success = false;
             $this->alert('error', 'Oops! Something went wrong', [
@@ -80,7 +100,6 @@ class AddTableModal extends Component
                 'showConfirmButton' =>  false,
             ]);
         }
-
     }
     public function genarateCode($prefix)
     {

@@ -7,6 +7,7 @@ use Livewire\Component;
 class Dashboard extends Component
 {
     public $page;
+    public $itemId;
 
     protected $listeners = [
         'pageUpdate' => 'pageUpdate',

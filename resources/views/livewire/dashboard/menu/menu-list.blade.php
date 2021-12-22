@@ -159,11 +159,11 @@
 
                                                 <td class="align-middle border-top-0">
                                                     @if ($item->status == "Inactive")
-                                                    {{-- <a wire:click='declineEvent({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm">Reject</a> --}}
-                                                    <a wire:click='approveEvent({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm">Activate</a>
+                                                    <a wire:click='activate({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm">Activate</a>
                                                     @elseif($item->status == "Active")
-                                                    <a wire:click='archive({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Deactivate</a>
+                                                    <a wire:click='deactivate({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm ">Deactivate</a>
                                                     @endif
+                                                    <a wire:click='delete({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Delete</a>
                                                 </td>
 
                                             </tr>
@@ -279,11 +279,11 @@
 
                                                 <td class="align-middle border-top-0">
                                                     @if ($item->status == "Inactive")
-                                                    {{-- <a wire:click='declineEvent({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm">Reject</a> --}}
-                                                    <a wire:click='approveEvent({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm">Activate</a>
+                                                    <a wire:click='activate({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm">Activate</a>
                                                     @elseif($item->status == "Active")
-                                                    <a wire:click='archive({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Deactivate</a>
+                                                    <a wire:click='deactivate({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm ">Deactivate</a>
                                                     @endif
+                                                    <a wire:click='delete({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Delete</a>
                                                 </td>
 
                                             </tr>
@@ -400,11 +400,11 @@
 
                                                 <td class="align-middle border-top-0">
                                                     @if ($item->status == "Inactive")
-                                                    {{-- <a wire:click='declineEvent({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm">Reject</a> --}}
-                                                    <a wire:click='approveEvent({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm">Activate</a>
+                                                    <a wire:click='activate({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm">Activate</a>
                                                     @elseif($item->status == "Active")
-                                                    <a wire:click='archive({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Deactivate</a>
+                                                    <a wire:click='deactivate({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm ">Deactivate</a>
                                                     @endif
+                                                    <a wire:click='delete({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Delete</a>
                                                 </td>
 
                                             </tr>
