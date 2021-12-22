@@ -11,13 +11,16 @@ use Livewire\WithPagination;
 class MenuList extends Component
 {
     use WithPagination;
-
     public $resDetails;
+    public $searchTerm;
+
     public function render()
     {
+        $searchTerm = '%'.$this->searchTerm.'%';
         $this->resDetails = Restraunt::where('id', auth()->user()->id)->first();
         $dishes = Dish::
         where('restaurant_id', auth()->user()->id)
+        ->where('name','like', $searchTerm)
         ->latest()
         ->paginate(10);
 

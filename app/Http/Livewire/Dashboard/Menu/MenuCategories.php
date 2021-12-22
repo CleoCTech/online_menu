@@ -13,12 +13,16 @@ class MenuCategories extends Component
 
     use WithPagination;
     public $categoryId, $modal, $catName;
+    public $searchTerm;
+
     protected $listeners = ['refreshMenuCategories', '$refresh'];
 
     public function render()
     {
+        $searchTerm = '%'.$this->searchTerm.'%';
         $menulist = MenuCategory::
         where('restraunt_id', auth()->user()->id)
+        ->where('name','like', $searchTerm)
         ->latest()
         ->paginate(10);
         return view('livewire.dashboard.menu.menu-categories', compact('menulist', $menulist));

@@ -53,7 +53,7 @@
                             <span class="position-absolute ps-3 search-icon">
                                 <i class="fe fe-search"></i>
                             </span>
-                            <input type="search" class="form-control ps-6" placeholder="Search Events" />
+                            <input wire:model="searchTerm" type="search" class="form-control ps-6" placeholder="Search Events" />
                         </form>
                     </div>
                     <div>

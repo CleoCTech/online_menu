@@ -13,12 +13,16 @@ class RestaurantTables extends Component
     use WithPagination;
 
     public $categoryId, $modal;
+    public $searchTerm;
+
     protected $listeners = ['render', 'render'];
 
     public function render()
     {
+        $searchTerm = '%'.$this->searchTerm.'%';
         $tableslist = RestrauntTable::
         where('restraunt_id', auth()->user()->id)
+        ->where('name','like', $searchTerm)
         ->latest()
         ->paginate(10);
         return view('livewire.dashboard.tables.restaurant-tables', compact('tableslist', $tableslist));
