@@ -1,7 +1,7 @@
 <div>
     {{-- The best athlete wants his opponent at his best. --}}
     <div class="row">
-        <div class="col-xl-8 col-lg-12 col-md-12 col-12">
+        <div class="col-xl-7 col-lg-12 col-md-12 col-12">
             <!-- Card -->
             <div class="card mb-4">
                 <!-- Card header -->
@@ -37,11 +37,15 @@
                 <!-- Card body -->
                 <div class="card-body">
                     <!-- Earning chart -->
-                    <div id="earning" class="apex-charts"></div>
+                    {!! $areaChart->container() !!}
+
+                    <script src="{{ $areaChart->cdn() }}"></script>
+                    {{ $areaChart->script() }}
+                    {{-- <div id="earning" class="apex-charts"></div> --}}
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-12 col-12">
+        <div class="col-xl-5 col-lg-12 col-md-12 col-12">
             <!-- Card -->
             <div class="card mb-4">
                 <!-- Card header -->
@@ -54,10 +58,10 @@
                   align-items-center
                 ">
                     <div>
-                        <h4 class="mb-0">Events</h4>
+                        <h4 class="mb-0">Top Table Requests</h4>
                     </div>
                     <div>
-                        <div class="dropdown dropstart">
+                        {{-- <div class="dropdown dropstart">
                             <a class="text-muted text-decoration-none" href="#" role="button" id="courseDropdown2"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fe fe-more-vertical"></i>
@@ -71,14 +75,27 @@
                                 <a class="dropdown-item" href="#"><i
                                         class="fe fe-download dropdown-item-icon"></i>Download</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
-                    <div id="traffic" class="apex-charts d-flex justify-content-center"></div>
+
+                    {!! $chart->container() !!}
+
+                    <script src="{{ $chart->cdn() }}"></script>
+                    {{ $chart->script() }}
+                    {{-- <div id="traffic" class="apex-charts d-flex justify-content-center">
+
+                    </div> --}}
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .apexcharts-legend {
+            /* display: none !important; */
+        }
+    </style>
 </div>
