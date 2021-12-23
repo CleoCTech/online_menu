@@ -12,5 +12,7 @@
     @elseif($page == 'edit-dish')
     @livewire('dashboard.menu.edit-dish', ['id' => $itemId])
     {{-- @livewire('dashboard.menu.edit-dish') --}}
+    @elseif($page == 'requests')
+    @livewire('dashboard.requests.list-requests')
     @endif
 </div>

@@ -31,12 +31,16 @@
             {{ $slot }}
         </div>
     </div>
-    @stack('scripts')
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js " crossorigin="anonymous " defer></script>
+    @stack('scripts')
     @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     </script>
     <x-livewire-alert::scripts />
+
 </body>
 </html>

@@ -122,7 +122,7 @@
             <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js" defer></script>
 
             <script src="{{ asset('admin-assets/assets/js/theme.min.js') }}"></script>
-
+            
             @stack('scripts')
 
 

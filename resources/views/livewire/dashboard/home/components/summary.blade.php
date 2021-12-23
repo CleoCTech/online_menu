@@ -20,9 +20,9 @@
                             <span class="fe fe-shopping-bag fs-3 text-primary"></span>
                         </div>
                     </div>
-                    <h2 class="fw-bold mb-1"> 1200</h2>
-                    <span class="text-success fw-semi-bold"><i class="fe fe-trending-up me-1"></i>+20</span>
-                    <span class="ms-1 fw-medium">Number of total requests</span>
+                    <h2 class="fw-bold mb-1"> {{ $requests }}</h2>
+                    <span class="text-success fw-semi-bold"><i class="fe fe-trending-up me-1"></i>+{{ $todayRequests }}</span>
+                    <span class="ms-1 fw-medium">New requests today</span>
                 </div>
             </div>
         </div>
@@ -45,9 +45,9 @@
                             <span class="fe fe-calendar fs-3 text-primary"></span>
                         </div>
                     </div>
-                    <h2 class="fw-bold mb-1">51</h2>
-                    <span class="text-danger fw-semi-bold">120+</span>
-                    <span class="ms-1 fw-medium">Active </span>
+                    <h2 class="fw-bold mb-1">{{ $dishes }}</h2>
+                    <span class="text-danger fw-semi-bold">{{ $activeDishes }}+</span>
+                    <span class="ms-1 fw-medium">Active Dishes</span>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <h2 class="fw-bold mb-1">0</h2>
-                    <span class="text-success fw-semi-bold"><i class="fe fe-trending-up me-1"></i>+1200</span>
+                    <span class="text-success fw-semi-bold"><i class="fe fe-trending-up me-1"></i>+0</span>
                     <span class="ms-1 fw-medium">New Orders</span>
                 </div>
             </div>
@@ -95,9 +95,9 @@
                             <span class="fe fe-credit-card fs-3 text-primary"></span>
                         </div>
                     </div>
-                    <h2 class="fw-bold mb-1">15</h2>
-                    <span class="text-success fw-semi-bold"><i class="fe fe-trending-up me-1"></i>+1</span>
-                    <span class="ms-1 fw-medium">Service Tables</span>
+                    <h2 class="fw-bold mb-1">{{ $tables }}</h2>
+                    <span class="text-success fw-semi-bold"><i class="fe fe-trending-up me-1"></i>+{{ $activeTables }}</span>
+                    <span class="ms-1 fw-medium">Service/Active Tables</span>
                 </div>
             </div>
         </div>

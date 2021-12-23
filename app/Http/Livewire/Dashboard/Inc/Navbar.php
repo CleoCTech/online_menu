@@ -25,6 +25,14 @@ class Navbar extends Component
     {
         $this->emit('pageUpdate', 'menu-list', '');
     }
+    public function requests()
+    {
+        $this->emit('pageUpdate', 'requests', '');
+    }
+    public function dashboard()
+    {
+        $this->emit('pageUpdate', 'dashboard', '');
+    }
     public function createDish()
     {
         $this->emit('pageUpdate', 'create-dish', '');

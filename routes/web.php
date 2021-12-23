@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-
+use hisorange\BrowserDetect\Parser as Browser;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +43,43 @@ Route::get('/test-email', function () {
     return Mail::to('cleoctech@gmail.com')
     ->send(new TestMail());
 });
+Route::get('/ip-address', function () {
+    $macAddr = exec('getmac');
+    if (\Browser::isMobile()) {
+        echo "Mobile";
+    } else if(\Browser::isTablet()){
+        echo "Tablet";
+    } else if (\Browser::isDesktop()){
+        echo "Desktop";
+    } else if (\Browser::isBot()){
+        echo "Bot";
+    }
+
+    dump(\Browser::platformName());
+    dump(\Browser::browserName());
+    dump(\Browser::userAgent());
+    dd($macAddr);
+    $ipaddress = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    else if(isset($_SERVER['REMOTE_ADDR']))
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    else
+        $ipaddress = 'UNKNOWN';
+    // return $ipaddress;
+    // $clientIP = \Request::getClientIp(true);
+
+    dd($ipaddress);
+});
+
 
 //Route::post('upload', [App\Http\Controllers\UploadController::class, 'store'])->name('upload');
 Route::get('/', Signup::class)->name('signup');
@@ -102,7 +139,7 @@ Route::get('qr-code-g', function () {
 
     \QrCode::size(500)
             ->format('png')
-           ->generate('wenlasoftwares.com', storage_path('qrcode.png'));
+           ->generate('wenlasystems.com', storage_path('qrcode.png'));
 
     return view('qr-code');
 });

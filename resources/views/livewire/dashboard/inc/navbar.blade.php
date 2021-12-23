@@ -22,7 +22,7 @@
                 </li>
                 @if (Auth::guard('restraunt'))
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a wire:click='dashboard' class="nav-link" href="#">
                         <i class="nav-icon fe fe-home me-2"></i> Dashboard
                     </a>
                 </li>
@@ -79,7 +79,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a  class="nav-link" href="#">
+                    <a wire:click='requests' class="nav-link" href="#">
                         <i class="nav-icon fe fe-list me-2"></i> Requests
                     </a>
                 </li>
