@@ -30,7 +30,9 @@ class CreateDish extends Component
     public $containsAllergene = false;
     public $frozen = false;
 
-    protected $listeners = ['refreshCreateDishView' => '$refresh'];
+    protected $listeners = [
+        'refreshCreateDishView' => '$refresh',
+    ];
 
     protected $rules = [
         'dish_category_id' => 'required',
@@ -45,6 +47,7 @@ class CreateDish extends Component
 
     public function mount()
     {
+
         session()->forget('files');
         $this->menuCategories = MenuCategory::
         where('restraunt_id', auth()->user()->id)

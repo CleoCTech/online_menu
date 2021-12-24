@@ -7,6 +7,7 @@ use App\Models\Dish;
 use App\Models\DishCategory;
 use App\Models\MenuCategory;
 use App\Models\MenuRequest;
+use App\Models\PriceCategory;
 use App\Models\Restraunt;
 use App\Models\RestrauntTable;
 use hisorange\BrowserDetect\Parser as Browser;
@@ -46,6 +47,11 @@ class Menu extends Component
         $this->resDetails = $checkRes;
         if ($checkRes) {
 
+            if (!$this->checkActivePriceCategory($checkRes->id)) {
+                session()->flash('error', 'Oops! Prices Not Set Yet' );
+                return redirect()->route('signup');
+            }
+
             $table= RestrauntTable::
             where('code', $this->table)
             ->where('restraunt_id', $checkRes->id)
@@ -65,16 +71,6 @@ class Menu extends Component
             ->where('restaurant_id', $checkRes->id)
             // ->where('category_id', $activeMenu->id)
             ->get();
-
-            // foreach ($this->disheCategories as $key => $dishCategory) {
-
-            //     foreach ($dishCategory->dishes as $key => $dish) {
-            //         dump($dish->name);
-            //         dump($dish->prices);
-            //     }
-
-            // }
-            // dd('done');
 
         } else {
             // return redirect()->route('404-page');
@@ -146,6 +142,18 @@ class Menu extends Component
             $success = false;
             DB::rollback();
             // return false;
+        }
+    }
+    public function checkActivePriceCategory($id)
+    {
+        $check = PriceCategory::where('restaurant_id', $id)
+        ->where('status', 'Active')
+        ->first();
+
+        if ($check) {
+            return true;
+        } else {
+            return false;
         }
     }
     public function checkDevice()

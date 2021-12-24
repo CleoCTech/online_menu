@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire\Dashboard\Home\Components;
 
+use App\Models\Allergene;
+use App\Models\DishCategory;
+use App\Models\MenuCategory;
+use App\Models\PriceCategory;
 use Livewire\WithPagination;
 use Livewire\Component;
 
@@ -51,7 +55,70 @@ class PageHaeder extends Component
             $this->emit('updateModal', $nextPage, $pageTitle);
             // $this->emitTo($nextPage, 'show', $pageTitle);
         }else{
-            $this->emit('pageUpdate', $nextPage, '');
+            if ($nextPage == 'create-dish') {
+                //check prerequisites
+                //check menu categories, dish categories, price categories, allergnes
+
+                $menuCategories = MenuCategory::where('restraunt_id', auth()->user()->id)->get();
+                $dishcategories =  DishCategory::where('restaurant_id', auth()->user()->id)->get();
+                $pricecategories =  PriceCategory::where('restaurant_id', auth()->user()->id)->get();
+                $allergnes =  Allergene::where('restaurant_id', auth()->user()->id)->get();
+
+                if ($menuCategories->isEmpty()) {
+                    $this->alert('error', 'Set menu categories as a prerequisite!', [
+                        'position' => 'center',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                    return;
+                }
+                if ($dishcategories->isEmpty()) {
+                    $this->alert('error', 'Set dish categories as a prerequisite!', [
+                        'position' => 'center',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                    return;
+                }
+                if ($allergnes->isEmpty()) {
+                    $this->alert('error', 'Set allergnes as a prerequisite!', [
+                        'position' => 'center',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                    return;
+                }
+                if ($pricecategories ->isEmpty()) {
+                    $this->alert('error', 'Set price categories as a prerequisite!', [
+                        'position' => 'center',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
+                    return;
+                }
+                $this->emit('pageUpdate', $nextPage, '');
+            }
+
         }
 
     }
