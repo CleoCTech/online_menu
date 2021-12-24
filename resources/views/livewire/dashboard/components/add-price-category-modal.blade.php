@@ -114,6 +114,9 @@
                                             Name
                                         </th>
                                         <th scope="col" class="border-0 text-uppercase">
+                                            More
+                                        </th>
+                                        <th scope="col" class="border-0 text-uppercase">
                                             ACTION
                                         </th>
                                     </tr>
@@ -149,6 +152,14 @@
                                                 </a>
                                             </td>
                                             <td class="align-middle border-top-0">
+                                                <a x-on:click="$dispatch('dlg-modal'); $wire.openModal('dashboard.components.edit-price-category-modal', 'Edit Price Category', '{{ $item->id }}')"  href="#" class="btn btn-outline-primary btn-sm">Eidt</a>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                @if ($item->status == 'Inactive')
+                                                <a wire:click='activate({{ $item->id }})' href="#" class="btn btn-outline-success btn-sm" style="font-size: 0.575rem !important;">Activate</a>
+                                                @elseif($item->status == 'Active')
+                                                <a wire:click='deactivate({{ $item->id }})' href="#" class="btn btn-outline-warning btn-sm" style="font-size: 0.575rem !important;">Deactivate</a>
+                                                @endif
                                                 <a wire:click='delete({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm" style="font-size: 0.575rem !important;">Delete</a>
                                             </td>
                                         </tr>

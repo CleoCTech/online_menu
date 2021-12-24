@@ -10,7 +10,7 @@ class PriceCategory extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'restaurant_id'
+        'name', 'restaurant_id', 'status'
     ];
     /**
      * Get all of the dishPrices for the PriceCategory

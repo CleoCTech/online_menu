@@ -26,6 +26,8 @@
             @livewire('dashboard.components.edit-menu-category-modal', ['id'=>$editId])
         @elseif($modal == 'dashboard.components.edit-table-modal')
             @livewire('dashboard.components.edit-table-modal', ['id'=>$editId])
+        @elseif($modal == 'dashboard.components.edit-price-category-modal')
+            @livewire('dashboard.components.edit-price-category-modal', ['id'=>$editId])
         @else
             @livewire($modal)
         @endif

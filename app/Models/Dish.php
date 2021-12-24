@@ -30,7 +30,11 @@ class Dish extends Model
      */
     public function prices(): HasMany
     {
-        return $this->hasMany(DishPrice::class, 'dish_id', 'id')->where('category_id','=', 1);
+        return $this->hasMany(DishPrice::class, 'dish_id', 'id')
+       ->whereHas('priceCategory', function ($query) {
+           $query->where('status', 'Active');
+       });
+
     }
     /**
      * Get the menucategory that owns the Dish

@@ -32,7 +32,10 @@ class AddDishCategoryModal extends Modal
         $success = false; //flag
 	    DB::beginTransaction();
         try {
-            DishCategory::create(['name' => $this->category]);
+            DishCategory::create([
+                'name' => $this->category,
+                'restaurant_id' => auth()->user()->id
+            ]);
             $this->alert('success', 'Saved Successfully', [
                 'position' =>  'top-end',
                 'timer' =>  3000,

@@ -12,11 +12,11 @@ class AddMenuCategoryModal extends Modal
 {
     public $catName;
     protected $listeners = [
-        
+
     ];
     protected $rules = [
         'catName' => 'required',
-    ];  
+    ];
     public function render()
     {
         return view('livewire.dashboard.components.add-menu-category-modal');
@@ -42,7 +42,7 @@ class AddMenuCategoryModal extends Modal
                 'showCancelButton' =>  false,
                 'showConfirmButton' =>  false,
           ]);
-         
+
           $success = true;
           if ($success) {
             DB::commit();
@@ -63,6 +63,6 @@ class AddMenuCategoryModal extends Modal
                 'showConfirmButton' =>  false,
             ]);
         }
-      
+
     }
 }

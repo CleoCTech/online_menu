@@ -30,25 +30,34 @@ class AddPriceCategoryModal extends Modal
     public function store(){
         $this->validate();
 
+        $success = false; //flag
+        DB::beginTransaction();
         try {
-            DB::transaction();
-            PriceCategory::create(['name' => $this->category]);
-            $this->alert('success', 'Saved Successfully', [
-                'position' =>  'top-end',
-                'timer' =>  3000,
-                'toast' =>  true,
-                'position'=>'top-right',
-                'text' =>  '',
-                'confirmButtonText' =>  'Ok',
-                'cancelButtonText' =>  'Cancel',
-                'showCancelButton' =>  false,
-                'showConfirmButton' =>  false,
-          ]);
-        //   $this->emit('render-dishes');
-        $this->emit('refreshCreateDishView');
-            DB::commit();
+
+            PriceCategory::create([
+                'name' => $this->category,
+                'restaurant_id' => auth()->user()->id
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+                $this->alert('success', 'Saved Successfully', [
+                    'position' =>  'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
+                    'position'=>'top-right',
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+              ]);
+              $this->emit('refreshCreateDishView');
+            }
+
         } catch (Exception $e) {
             DB::rollBack();
+            $success = false;
             $this->alert('error', 'Oops! Something went wrong', [
                 'position' =>  'top-end',
                 'timer' =>  3000,
@@ -69,7 +78,7 @@ class AddPriceCategoryModal extends Modal
              try {
                 $find = PriceCategory::find($id);
                 $find->delete();
-                
+
                 $this->alert('success', 'Deleted Successfully', [
                     'position' =>  'top-end',
                     'timer' =>  3000,
@@ -96,5 +105,110 @@ class AddPriceCategoryModal extends Modal
                 ]);
             }
         });
+    }
+    public function activate($id)
+    {
+        $success = false; //flag
+        DB::beginTransaction();
+        try {
+
+            //check if any active(can only be one active)
+            $check = PriceCategory::where('restaurant_id', auth()->user()->id)
+            ->where('status', 'Active')
+            ->first();
+            if ($check) {
+                return $this->alert('error', 'You already have an price category running', [
+                    'position' =>  'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
+                    'position'=>'top-right',
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+                ]);
+            }
+            PriceCategory::where('id', $id)
+            ->update([
+                'status' => 'Active',
+            ]);
+
+            $this->alert('success', 'Activated Successfully', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            $success = false;
+            $this->alert('error', 'Oops! Something went wrong', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
+    }
+    public function deactivate($id)
+    {
+        $success = false; //flag
+        DB::beginTransaction();
+        try {
+
+            PriceCategory::where('id', $id)
+            ->update([
+                'status' => 'Inactive',
+            ]);
+
+            $this->alert('success', 'Deactivated Successfully', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+            $success = true;
+            if ($success) {
+                DB::commit();
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            $success = false;
+            $this->alert('error', 'Oops! Something went wrong', [
+                'position' =>  'top-end',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'position'=>'top-right',
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
+    }
+    public function openModal($modal, $pageTitle, $id)
+    {
+        $this->emit('editModal', $modal, $pageTitle, $id);
     }
 }

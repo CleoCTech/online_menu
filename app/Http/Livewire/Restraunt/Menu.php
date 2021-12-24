@@ -66,6 +66,16 @@ class Menu extends Component
             // ->where('category_id', $activeMenu->id)
             ->get();
 
+            // foreach ($this->disheCategories as $key => $dishCategory) {
+
+            //     foreach ($dishCategory->dishes as $key => $dish) {
+            //         dump($dish->name);
+            //         dump($dish->prices);
+            //     }
+
+            // }
+            // dd('done');
+
         } else {
             // return redirect()->route('404-page');
             session()->flash('error', 'Restaurant Not Found!' );
