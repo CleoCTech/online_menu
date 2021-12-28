@@ -8,6 +8,7 @@ use App\Models\RestrauntFile;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Mail;
@@ -25,6 +26,9 @@ class VerifyEmailController extends Controller
         if ($request->password != $request->confirm_password) {
             return $request->session()->flash('error', 'Password did not match');
         }
+
+        $success = false; //flag
+        DB::beginTransaction();
         try {
             //bd5ae42f0756c719ffabef207b83790898936eb201946c4e52ee66765086894d
             $user =  Restraunt::where('token', $token)->first();
@@ -37,7 +41,7 @@ class VerifyEmailController extends Controller
                 $code = $this->genarateCode($prefix);
                 $qrcode = $domain . $code;
 
-                Restraunt::where('id', $user->id)
+                $restaurant = Restraunt::where('id', $user->id)
                 ->update([
                     'code' =>$code,
                     'verified' =>1,
@@ -54,17 +58,26 @@ class VerifyEmailController extends Controller
                 ->format('png')
                  ->generate($qrcode, storage_path( 'app/public/qr-codes/'.$imageName.'.png' ));
 
-                RestrauntFile::create([
+                $restaurant = Restraunt::find($user->id);
+
+                $restaurant->file()->create([
                     'restraunt_id'=>$user->id,
                     'folder'=>'qr-codes',
                     'filename'=>$imageName,
                 ]);
+
                 Mail::to($user->email)->send(new MailQrCode($qrcode, $imageName.'.png'));
-                return redirect(route('r-dashboard', $code));
+                $success = true;
+                if ($success) {
+                    DB::commit();
+                    return redirect(route('r-dashboard', $code));
+                }
             } else {
                 return redirect()->route('signup')->with(session()->flash('error', 'No such email'));
             }
         } catch (Exception $e) {
+            DB::rollBack();
+            $success = false;
             return $request->session()->flash('error', $e->getMessage());
         }
     }

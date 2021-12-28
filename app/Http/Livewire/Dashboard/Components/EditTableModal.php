@@ -55,7 +55,7 @@ class EditTableModal extends Component
             $prefix = $this->tableName;
             $code = $this->genarateCode($prefix);
             $res = Restraunt::where('id', auth()->user()->id)->first();
-            RestrauntTable::where('id', $this->editId)
+            $table = RestrauntTable::where('id', $this->editId)
             ->update([
                 'name' => $this->tableName,
                 'code' => $this->code,
@@ -68,6 +68,12 @@ class EditTableModal extends Component
             \QrCode::size(500)
             ->format('png')
              ->generate($qrcode, storage_path( 'app/public/qr-codes/'.$imageName.'.png' ));
+            $table = RestrauntTable::find($this->editId) ;
+            $table->file()->create([
+                'restraunt_id'=>auth()->user()->id,
+                'folder'=>'qr-codes',
+                'filename'=>$imageName,
+            ]);
             Mail::to(auth()->user()->email)->send(new MailQrCode($qrcode, $imageName.'.png'));
 
             $success = true;

@@ -147,6 +147,8 @@
 
                                                         @endif
                                                         <a wire:click='delete({{ $item->id }})' href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                                                        <a wire:click="getQrCode('{{ $item->id }}', '{{ $item->code }}')" href="#" class="btn btn-outline-info btn-sm">Get QRCode</a>
+
                                                     </td>
                                                 </tr>
                                                 @php

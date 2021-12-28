@@ -14,6 +14,8 @@ class RestrauntFile extends Model
         'restraunt_id',
         'folder',
         'filename',
+        'fileable_id',
+        'fileable_type'
     ];
 
     /**
@@ -26,4 +28,8 @@ class RestrauntFile extends Model
         return $this->belongsTo(Restraunt::class, 'restraunt_id', 'id');
     }
 
+    public function fileable()
+    {
+        return $this->morphTo();
+    }
 }

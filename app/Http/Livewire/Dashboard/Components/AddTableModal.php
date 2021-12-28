@@ -32,11 +32,13 @@ class AddTableModal extends Component
             $prefix = $this->tableName;
             $code = $this->genarateCode($prefix);
             $res = Restraunt::where('id', auth()->user()->id)->first();
-            RestrauntTable::create([
+            $table = RestrauntTable::create([
                 'restraunt_id' => auth()->user()->id,
                 'name' => $this->tableName,
                 'code' => $code,
             ]);
+
+
 
             $domain = config('app.urlname');
             $domain = $domain .'r/'.$res->code .'/';
@@ -46,6 +48,14 @@ class AddTableModal extends Component
             \QrCode::size(500)
             ->format('png')
              ->generate($qrcode, storage_path( 'app/public/qr-codes/'.$imageName.'.png' ));
+
+            $table = RestrauntTable::find($table->id);
+            $table->file()->create([
+                'restraunt_id'=>auth()->user()->id,
+                'folder'=>'qr-codes',
+                'filename'=>$imageName,
+            ]);
+
             Mail::to(auth()->user()->email)->send(new MailQrCode($qrcode, $imageName.'.png'));
             session()->flash('success', 'Saved Successfully');
 

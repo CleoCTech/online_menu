@@ -14,4 +14,9 @@ class RestrauntTable extends Model
         'name',
         'code',
     ];
+
+    public function file()
+    {
+        return $this->morphOne(RestrauntFile::class, 'fileable');
+    }
 }

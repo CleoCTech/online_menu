@@ -20,4 +20,8 @@ class Restraunt extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function file()
+    {
+        return $this->morphOne(RestrauntFile::class, 'fileable');
+    }
 }
